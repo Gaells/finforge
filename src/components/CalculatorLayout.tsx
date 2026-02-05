@@ -20,7 +20,6 @@ export function CalculatorLayout({
 }: Readonly<CalculatorLayoutProps>) {
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
       <header className="border-b border-border/50 sticky top-0 z-50 bg-background/80 backdrop-blur-lg">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
@@ -40,9 +39,7 @@ export function CalculatorLayout({
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
-        {/* Page Title */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -58,7 +55,6 @@ export function CalculatorLayout({
           <p className="text-muted-foreground max-w-2xl">{description}</p>
         </motion.div>
 
-        {/* Calculator Content */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

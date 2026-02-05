@@ -1,6 +1,5 @@
 "use client";
 
-import { ReactNode } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { LucideIcon } from "lucide-react";
@@ -19,14 +18,8 @@ export function FeatureCard({
   description,
   icon: Icon,
   href,
-  gradient = "primary",
   delay = 0,
-}: FeatureCardProps) {
-  const gradientClasses = {
-    primary: "group-hover:gradient-primary",
-    wealth: "group-hover:gradient-wealth",
-    accent: "group-hover:from-accent group-hover:to-primary",
-  };
+}: Readonly<FeatureCardProps>) {
 
   return (
     <motion.a
@@ -42,10 +35,8 @@ export function FeatureCard({
         "cursor-pointer overflow-hidden"
       )}
     >
-      {/* Background gradient on hover */}
       <div className="absolute inset-0 opacity-0 group-hover:opacity-5 gradient-primary transition-opacity duration-300" />
 
-      {/* Icon container */}
       <div
         className={cn(
           "flex items-center justify-center w-12 h-12 rounded-lg mb-4",
@@ -57,7 +48,6 @@ export function FeatureCard({
         <Icon className="w-6 h-6" />
       </div>
 
-      {/* Content */}
       <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
         {title}
       </h3>
@@ -65,7 +55,6 @@ export function FeatureCard({
         {description}
       </p>
 
-      {/* Arrow indicator */}
       <div className="mt-4 flex items-center text-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300">
         <span className="text-sm font-medium">Acessar</span>
         <svg

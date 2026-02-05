@@ -27,7 +27,7 @@ interface FireChartProps {
   fireNumber: Decimal;
 }
 
-export function FireProgressChart({ data, fireNumber }: FireChartProps) {
+export function FireProgressChart({ data, fireNumber }: Readonly<FireChartProps>) {
   const chartData = React.useMemo(() => {
     return data.map((item) => ({
       ano: `Ano ${item.year}`,
@@ -40,7 +40,7 @@ export function FireProgressChart({ data, fireNumber }: FireChartProps) {
   }, [data, fireNumber]);
 
   return (
-    <div className="w-full h-[400px]">
+    <div className="w-full h-100">
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
           data={chartData}
@@ -102,7 +102,7 @@ export function FireProgressChart({ data, fireNumber }: FireChartProps) {
 
 export function FireBreakdownChart({
   data,
-}: Omit<FireChartProps, "fireNumber">) {
+}: Readonly<Omit<FireChartProps, "fireNumber">>) {
   const chartData = React.useMemo(() => {
     // Pega apenas alguns anos espaçados para visualização
     const step = Math.ceil(data.length / 10);
@@ -116,7 +116,7 @@ export function FireBreakdownChart({
   }, [data]);
 
   return (
-    <div className="w-full h-[300px]">
+    <div className="w-full h-75">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           data={chartData}

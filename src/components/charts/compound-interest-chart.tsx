@@ -27,8 +27,7 @@ interface CompoundInterestChartProps {
 export function CompoundInterestChart({
   data,
   showMonthly = false,
-}: CompoundInterestChartProps) {
-  // Agrupa por ano se houver muitos dados
+}: Readonly<CompoundInterestChartProps>) {
   const displayData = React.useMemo(() => {
     if (showMonthly || data.length <= 24) {
       return data.map((item) => ({
@@ -38,7 +37,6 @@ export function CompoundInterestChart({
       }));
     }
 
-    // Agrupa por ano
     const yearlyData: Array<{
       period: string;
       saldo: number;
@@ -68,7 +66,7 @@ export function CompoundInterestChart({
   }, [data, showMonthly]);
 
   return (
-    <div className="w-full h-[400px]">
+    <div className="w-full h-100">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           data={displayData}

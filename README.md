@@ -116,11 +116,6 @@ const result = new Decimal(0.1).plus(0.2); // 0.3
 
 Todos os cálculos monetários usam `decimal.js` para garantir precisão de até 20 casas decimais.
 
-## 📖 Documentação
-
-- [rules.md](./rules.md) - Regras e especificações técnicas
-- [feature.md](./feature.md) - Detalhamento das funcionalidades
-
 ## 🎨 Componentização
 
 Os componentes seguem a estrutura do shadcn/ui com customizações:
@@ -144,5 +139,3 @@ Os componentes seguem a estrutura do shadcn/ui com customizações:
 MIT
 
 ---
-
-Feito com 💚 e TypeScript
