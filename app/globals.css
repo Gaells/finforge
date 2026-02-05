@@ -131,15 +131,15 @@ body {
 
 @layer utilities {
   .gradient-primary {
-    @apply bg-gradient-to-br from-emerald-500 to-teal-600;
+    @apply bg-linear-to-br from-emerald-500 to-teal-600;
   }
   .gradient-wealth {
-    @apply bg-gradient-to-br from-emerald-600 to-green-700;
+    @apply bg-linear-to-br from-emerald-600 to-green-700;
   }
   .gradient-accent {
-    @apply bg-gradient-to-br from-blue-500 to-cyan-600;
+    @apply bg-linear-to-br from-blue-500 to-cyan-600;
   }
   .gradient-hero {
-    @apply bg-gradient-to-br from-emerald-100 via-teal-50 to-green-100;
+    @apply bg-linear-to-br from-emerald-100 via-teal-50 to-green-100;
   }
 }
