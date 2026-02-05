@@ -1,5 +1,7 @@
 import { Dashboard } from "@/components/Dashboard";
 
-export default function Home() {
+const Index = () => {
   return <Dashboard />;
-}
+};
+
+export default Index;
