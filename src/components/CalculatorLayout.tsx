@@ -1,9 +1,9 @@
 import { ReactNode } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ForgeLogo } from "@/public/ForgeLogo";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 interface CalculatorLayoutProps {
   children: ReactNode;
@@ -17,8 +17,7 @@ export function CalculatorLayout({
   title,
   description,
   icon,
-}: CalculatorLayoutProps) {
-
+}: Readonly<CalculatorLayoutProps>) {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -36,6 +35,7 @@ export function CalculatorLayout({
               </Button>
               <ForgeLogo size="sm" />
             </div>
+            <ThemeToggle />
           </div>
         </div>
       </header>

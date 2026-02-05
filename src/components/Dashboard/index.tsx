@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ForgeLogo } from "@/public/ForgeLogo";
 import { FeatureCard } from "@/components/FeatureCard";
+import { ThemeToggle } from "@/components/theme-toggle";
 import {
   TrendingUp,
   Calculator,
@@ -80,6 +81,7 @@ export function Dashboard() {
               <span className="text-sm text-muted-foreground hidden sm:inline">
                 Ferramentas de precisão financeira
               </span>
+              <ThemeToggle />
             </div>
           </motion.header>
 
