@@ -1,6 +1,5 @@
-'use client'
+"use client";
 
-import { useState, useMemo } from "react";
 import Decimal from "decimal.js";
 import { TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
@@ -17,10 +16,9 @@ import {
 
 import { CalculatorLayout } from "@/components/CalculatorLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
-import { calculateCompoundInterest } from "@/core/services/compoundInterest";
+import { SliderInputField } from "@/components/calculator/SliderInputField";
+import { useCompoundInterestCalculator } from "@/hooks/useCompoundInterestCalculator";
+import { COMPOUND_INTEREST_CONSTANTS } from "@/core/domain/calculator-constants";
 
 function formatCurrency(value: number | Decimal): string {
   const num = value instanceof Decimal ? value.toNumber() : value;
@@ -42,51 +40,18 @@ function formatCompact(value: number): string {
 }
 
 export default function CompoundInterestPage() {
-  const [principal, setPrincipal] = useState(10000);
-  const [monthlyContribution, setMonthlyContribution] = useState(1000);
-  const [annualRate, setAnnualRate] = useState(12);
-  const [years, setYears] = useState(10);
-
-  const result = useMemo(() => {
-    return calculateCompoundInterest({
-      principal: new Decimal(principal),
-      monthlyContribution: new Decimal(monthlyContribution),
-      annualRate: new Decimal(annualRate),
-      months: years * 12,
-    });
-  }, [principal, monthlyContribution, annualRate, years]);
-
-  // Prepare chart data (annual snapshots)
-  const chartData = useMemo(() => {
-    const data: Array<{
-      ano: number;
-      patrimonio: number;
-      investido: number;
-      juros: number;
-    }> = [];
-
-    // Add initial point
-    data.push({
-      ano: 0,
-      patrimonio: principal,
-      investido: principal,
-      juros: 0,
-    });
-
-    // Add yearly data
-    result.monthlyData.forEach((snapshot) => {
-      if (snapshot.month % 12 === 0) {
-        data.push({
-          ano: snapshot.month / 12,
-          patrimonio: snapshot.balance.toNumber(),
-          investido: snapshot.invested.toNumber(),
-          juros: snapshot.interest.toNumber(),
-        });
-      }
-    });
-
-    return data;
-  }, [result, principal]);
+  const {
+    principal,
+    monthlyContribution,
+    annualRate,
+    years,
+    setPrincipal,
+    setMonthlyContribution,
+    setAnnualRate,
+    setYears,
+    result,
+    chartData,
+  } = useCompoundInterestCalculator();
 
   return (
     <CalculatorLayout
@@ -102,109 +67,53 @@ export default function CompoundInterestPage() {
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Principal */}
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <Label htmlFor="principal">Investimento Inicial</Label>
-                <span className="text-sm text-primary font-medium">
-                  {formatCurrency(principal)}
-                </span>
-              </div>
-              <Input
-                id="principal"
-                type="number"
-                value={principal}
-                onChange={(e) => setPrincipal(Number(e.target.value) || 0)}
-                className="font-mono"
-              />
-              <Slider
-                value={[principal]}
-                onValueChange={([v]) => setPrincipal(v)}
-                min={0}
-                max={500000}
-                step={1000}
-                className="mt-2"
-              />
-            </div>
+            <SliderInputField
+              id="principal"
+              label="Investimento Inicial"
+              value={principal}
+              onChange={setPrincipal}
+              displayValue={formatCurrency(principal)}
+              min={COMPOUND_INTEREST_CONSTANTS.PRINCIPAL.MIN}
+              max={COMPOUND_INTEREST_CONSTANTS.PRINCIPAL.MAX}
+              step={COMPOUND_INTEREST_CONSTANTS.PRINCIPAL.STEP}
+            />
 
             {/* Monthly Contribution */}
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <Label htmlFor="monthly">Aporte Mensal</Label>
-                <span className="text-sm text-primary font-medium">
-                  {formatCurrency(monthlyContribution)}
-                </span>
-              </div>
-              <Input
-                id="monthly"
-                type="number"
-                value={monthlyContribution}
-                onChange={(e) =>
-                  setMonthlyContribution(Number(e.target.value) || 0)
-                }
-                className="font-mono"
-              />
-              <Slider
-                value={[monthlyContribution]}
-                onValueChange={([v]) => setMonthlyContribution(v)}
-                min={0}
-                max={20000}
-                step={100}
-                className="mt-2"
-              />
-            </div>
+            <SliderInputField
+              id="monthly"
+              label="Aporte Mensal"
+              value={monthlyContribution}
+              onChange={setMonthlyContribution}
+              displayValue={formatCurrency(monthlyContribution)}
+              min={COMPOUND_INTEREST_CONSTANTS.MONTHLY_CONTRIBUTION.MIN}
+              max={COMPOUND_INTEREST_CONSTANTS.MONTHLY_CONTRIBUTION.MAX}
+              step={COMPOUND_INTEREST_CONSTANTS.MONTHLY_CONTRIBUTION.STEP}
+            />
 
             {/* Annual Rate */}
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <Label htmlFor="rate">Taxa Anual (%)</Label>
-                <span className="text-sm text-primary font-medium">
-                  {annualRate}%
-                </span>
-              </div>
-              <Input
-                id="rate"
-                type="number"
-                step="0.1"
-                value={annualRate}
-                onChange={(e) => setAnnualRate(Number(e.target.value) || 0)}
-                className="font-mono"
-              />
-              <Slider
-                value={[annualRate]}
-                onValueChange={([v]) => setAnnualRate(v)}
-                min={0}
-                max={30}
-                step={0.5}
-                className="mt-2"
-              />
-            </div>
+            <SliderInputField
+              id="rate"
+              label="Taxa Anual (%)"
+              value={annualRate}
+              onChange={setAnnualRate}
+              displayValue={`${annualRate}%`}
+              inputStep="0.1"
+              min={COMPOUND_INTEREST_CONSTANTS.ANNUAL_RATE.MIN}
+              max={COMPOUND_INTEREST_CONSTANTS.ANNUAL_RATE.MAX}
+              step={COMPOUND_INTEREST_CONSTANTS.ANNUAL_RATE.STEP}
+            />
 
             {/* Period */}
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <Label htmlFor="years">Período (Anos)</Label>
-                <span className="text-sm text-primary font-medium">
-                  {years} anos
-                </span>
-              </div>
-              <Input
-                id="years"
-                type="number"
-                value={years}
-                onChange={(e) =>
-                  setYears(Math.min(50, Number(e.target.value) || 0))
-                }
-                className="font-mono"
-              />
-              <Slider
-                value={[years]}
-                onValueChange={([v]) => setYears(v)}
-                min={1}
-                max={50}
-                step={1}
-                className="mt-2"
-              />
-            </div>
+            <SliderInputField
+              id="years"
+              label="Período (Anos)"
+              value={years}
+              onChange={(v) => setYears(Math.min(50, v))}
+              displayValue={`${years} anos`}
+              min={COMPOUND_INTEREST_CONSTANTS.YEARS.MIN}
+              max={COMPOUND_INTEREST_CONSTANTS.YEARS.MAX}
+              step={COMPOUND_INTEREST_CONSTANTS.YEARS.STEP}
+            />
           </CardContent>
         </Card>
 

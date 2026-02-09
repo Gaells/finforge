@@ -1,6 +1,5 @@
-'use client'
+"use client";
 
-import { useState, useMemo } from "react";
 import Decimal from "decimal.js";
 import { Target, Flame } from "lucide-react";
 import { motion } from "framer-motion";
@@ -17,11 +16,10 @@ import {
 
 import { CalculatorLayout } from "@/components/CalculatorLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
 import { Progress } from "@/components/ui/progress";
-import { calculateFire, calculateFireRule4Percent } from "@/core/services/fireCalculator";
+import { SliderInputField } from "@/components/calculator/SliderInputField";
+import { useFireCalculator } from "@/hooks/useFireCalculator";
+import { FIRE_CALCULATOR_CONSTANTS } from "@/core/domain/calculator-constants";
 
 function formatCurrency(value: number | Decimal): string {
   const num = value instanceof Decimal ? value.toNumber() : value;
@@ -44,34 +42,20 @@ function formatCompact(value: number): string {
 }
 
 export default function FireCalculatorPage() {
-  const [monthlyExpenses, setMonthlyExpenses] = useState(4000);
-  const [monthlyRate, setMonthlyRate] = useState(1);
-  const [currentSavings, setCurrentSavings] = useState(50000);
-  const [monthlyContribution, setMonthlyContribution] = useState(2000);
-
-  const result = useMemo(() => {
-    return calculateFire({
-      monthlyExpenses: new Decimal(monthlyExpenses),
-      monthlyRate: new Decimal(monthlyRate),
-      currentSavings: new Decimal(currentSavings),
-      monthlyContribution: new Decimal(monthlyContribution),
-    });
-  }, [monthlyExpenses, monthlyRate, currentSavings, monthlyContribution]);
-
-  const rule4Percent = useMemo(() => {
-    return calculateFireRule4Percent(new Decimal(monthlyExpenses));
-  }, [monthlyExpenses]);
-
-  // Chart data
-  const chartData = useMemo(() => {
-    return result.projectionData.map((d) => ({
-      ano: d.year,
-      patrimonio: d.patrimony.toNumber(),
-      meta: d.target.toNumber(),
-    }));
-  }, [result]);
-
-  const isFireReached = result.progressPercentage >= 100;
+  const {
+    monthlyExpenses,
+    monthlyRate,
+    currentSavings,
+    monthlyContribution,
+    setMonthlyExpenses,
+    setMonthlyRate,
+    setCurrentSavings,
+    setMonthlyContribution,
+    result,
+    rule4Percent,
+    chartData,
+    isFireReached,
+  } = useFireCalculator();
 
   return (
     <CalculatorLayout
@@ -90,112 +74,57 @@ export default function FireCalculatorPage() {
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Monthly Expenses */}
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <Label htmlFor="expenses">Custo de Vida Mensal</Label>
-                <span className="text-sm text-primary font-medium">
-                  {formatCurrency(monthlyExpenses)}
-                </span>
-              </div>
-              <Input
-                id="expenses"
-                type="number"
-                value={monthlyExpenses}
-                onChange={(e) =>
-                  setMonthlyExpenses(Number(e.target.value) || 0)
-                }
-                className="font-mono"
-              />
-              <Slider
-                value={[monthlyExpenses]}
-                onValueChange={([v]) => setMonthlyExpenses(v)}
-                min={1000}
-                max={50000}
-                step={500}
-                className="mt-2"
-              />
-            </div>
+            <SliderInputField
+              id="expenses"
+              label="Custo de Vida Mensal"
+              value={monthlyExpenses}
+              onChange={setMonthlyExpenses}
+              displayValue={formatCurrency(monthlyExpenses)}
+              min={FIRE_CALCULATOR_CONSTANTS.MONTHLY_EXPENSES.MIN}
+              max={FIRE_CALCULATOR_CONSTANTS.MONTHLY_EXPENSES.MAX}
+              step={FIRE_CALCULATOR_CONSTANTS.MONTHLY_EXPENSES.STEP}
+            />
 
             {/* Monthly Rate */}
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <Label htmlFor="rate">Taxa de Rendimento Mensal</Label>
-                <span className="text-sm text-primary font-medium">
-                  {monthlyRate}%
-                </span>
-              </div>
-              <Input
-                id="rate"
-                type="number"
-                step="0.1"
-                value={monthlyRate}
-                onChange={(e) => setMonthlyRate(Number(e.target.value) || 0)}
-                className="font-mono"
-              />
-              <Slider
-                value={[monthlyRate]}
-                onValueChange={([v]) => setMonthlyRate(v)}
-                min={0.1}
-                max={3}
-                step={0.1}
-                className="mt-2"
-              />
-              <p className="text-xs text-muted-foreground">
+            <SliderInputField
+              id="rate"
+              label="Taxa de Rendimento Mensal"
+              value={monthlyRate}
+              onChange={setMonthlyRate}
+              displayValue={`${monthlyRate}%`}
+              inputStep="0.1"
+              min={FIRE_CALCULATOR_CONSTANTS.MONTHLY_RATE.MIN}
+              max={FIRE_CALCULATOR_CONSTANTS.MONTHLY_RATE.MAX}
+              step={FIRE_CALCULATOR_CONSTANTS.MONTHLY_RATE.STEP}
+            >
+              <p className="text-xs text-muted-foreground mt-2">
                 Ex: 1% ao mês = investimentos bem diversificados
               </p>
-            </div>
+            </SliderInputField>
 
             {/* Current Savings */}
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <Label htmlFor="savings">Patrimônio Atual</Label>
-                <span className="text-sm text-primary font-medium">
-                  {formatCurrency(currentSavings)}
-                </span>
-              </div>
-              <Input
-                id="savings"
-                type="number"
-                value={currentSavings}
-                onChange={(e) => setCurrentSavings(Number(e.target.value) || 0)}
-                className="font-mono"
-              />
-              <Slider
-                value={[currentSavings]}
-                onValueChange={([v]) => setCurrentSavings(v)}
-                min={0}
-                max={2000000}
-                step={10000}
-                className="mt-2"
-              />
-            </div>
+            <SliderInputField
+              id="savings"
+              label="Patrimônio Atual"
+              value={currentSavings}
+              onChange={setCurrentSavings}
+              displayValue={formatCurrency(currentSavings)}
+              min={FIRE_CALCULATOR_CONSTANTS.CURRENT_SAVINGS.MIN}
+              max={FIRE_CALCULATOR_CONSTANTS.CURRENT_SAVINGS.MAX}
+              step={FIRE_CALCULATOR_CONSTANTS.CURRENT_SAVINGS.STEP}
+            />
 
             {/* Monthly Contribution */}
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <Label htmlFor="contribution">Aporte Mensal</Label>
-                <span className="text-sm text-primary font-medium">
-                  {formatCurrency(monthlyContribution)}
-                </span>
-              </div>
-              <Input
-                id="contribution"
-                type="number"
-                value={monthlyContribution}
-                onChange={(e) =>
-                  setMonthlyContribution(Number(e.target.value) || 0)
-                }
-                className="font-mono"
-              />
-              <Slider
-                value={[monthlyContribution]}
-                onValueChange={([v]) => setMonthlyContribution(v)}
-                min={0}
-                max={30000}
-                step={500}
-                className="mt-2"
-              />
-            </div>
+            <SliderInputField
+              id="contribution"
+              label="Aporte Mensal"
+              value={monthlyContribution}
+              onChange={setMonthlyContribution}
+              displayValue={formatCurrency(monthlyContribution)}
+              min={FIRE_CALCULATOR_CONSTANTS.MONTHLY_CONTRIBUTION.MIN}
+              max={FIRE_CALCULATOR_CONSTANTS.MONTHLY_CONTRIBUTION.MAX}
+              step={FIRE_CALCULATOR_CONSTANTS.MONTHLY_CONTRIBUTION.STEP}
+            />
           </CardContent>
         </Card>
 

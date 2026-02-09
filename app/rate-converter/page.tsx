@@ -1,33 +1,29 @@
-'use client'
+"use client";
 
-import { useState, useMemo } from "react";
 import Decimal from "decimal.js";
 import { Percent, ArrowRightLeft } from "lucide-react";
 import { motion } from "framer-motion";
 
 import { CalculatorLayout } from "@/components/CalculatorLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { convertRate } from "@/core/services/rateConverter";
+import { SliderInputField } from "@/components/calculator/SliderInputField";
+import { useRateConverter } from "@/hooks/useRateConverter";
+import { RATE_CONVERTER_CONSTANTS } from "@/core/domain/calculator-constants";
 
 function formatRate(value: Decimal, decimals: number = 4): string {
   return value.toFixed(decimals) + "%";
 }
 
 export default function RateConverterPage() {
-  const [annualRate, setAnnualRate] = useState(12);
-  const [monthlyInputRate, setMonthlyInputRate] = useState(1);
-
-  const annualToMonthly = useMemo(() => {
-    return convertRate(new Decimal(annualRate), "annual");
-  }, [annualRate]);
-
-  const monthlyToAnnual = useMemo(() => {
-    return convertRate(new Decimal(monthlyInputRate), "monthly");
-  }, [monthlyInputRate]);
+  const {
+    annualRate,
+    monthlyInputRate,
+    setAnnualRate,
+    setMonthlyInputRate,
+    annualToMonthly,
+    monthlyToAnnual,
+  } = useRateConverter();
 
   return (
     <CalculatorLayout
@@ -49,28 +45,17 @@ export default function RateConverterPage() {
                 <CardTitle className="text-lg">Taxa Anual</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <Label>Taxa Anual</Label>
-                    <span className="text-sm text-primary font-medium">
-                      {annualRate}% a.a.
-                    </span>
-                  </div>
-                  <Input
-                    type="number"
-                    step="0.1"
-                    value={annualRate}
-                    onChange={(e) => setAnnualRate(Number(e.target.value) || 0)}
-                    className="font-mono text-lg"
-                  />
-                  <Slider
-                    value={[annualRate]}
-                    onValueChange={([v]) => setAnnualRate(v)}
-                    min={0}
-                    max={50}
-                    step={0.5}
-                  />
-                </div>
+                <SliderInputField
+                  id="annual-rate"
+                  label="Taxa Anual"
+                  value={annualRate}
+                  onChange={setAnnualRate}
+                  displayValue={`${annualRate}% a.a.`}
+                  inputStep="0.1"
+                  min={RATE_CONVERTER_CONSTANTS.ANNUAL_RATE.MIN}
+                  max={RATE_CONVERTER_CONSTANTS.ANNUAL_RATE.MAX}
+                  step={RATE_CONVERTER_CONSTANTS.ANNUAL_RATE.STEP}
+                />
 
                 <div className="pt-4 border-t border-border/50">
                   <p className="text-xs text-muted-foreground mb-2">
@@ -138,30 +123,17 @@ export default function RateConverterPage() {
                 <CardTitle className="text-lg">Taxa Mensal</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <Label>Taxa Mensal</Label>
-                    <span className="text-sm text-primary font-medium">
-                      {monthlyInputRate}% a.m.
-                    </span>
-                  </div>
-                  <Input
-                    type="number"
-                    step="0.01"
-                    value={monthlyInputRate}
-                    onChange={(e) =>
-                      setMonthlyInputRate(Number(e.target.value) || 0)
-                    }
-                    className="font-mono text-lg"
-                  />
-                  <Slider
-                    value={[monthlyInputRate]}
-                    onValueChange={([v]) => setMonthlyInputRate(v)}
-                    min={0}
-                    max={5}
-                    step={0.05}
-                  />
-                </div>
+                <SliderInputField
+                  id="monthly-rate"
+                  label="Taxa Mensal"
+                  value={monthlyInputRate}
+                  onChange={setMonthlyInputRate}
+                  displayValue={`${monthlyInputRate}% a.m.`}
+                  inputStep="0.01"
+                  min={RATE_CONVERTER_CONSTANTS.MONTHLY_RATE.MIN}
+                  max={RATE_CONVERTER_CONSTANTS.MONTHLY_RATE.MAX}
+                  step={RATE_CONVERTER_CONSTANTS.MONTHLY_RATE.STEP}
+                />
 
                 <div className="pt-4 border-t border-border/50">
                   <p className="text-xs text-muted-foreground mb-2">

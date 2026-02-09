@@ -143,3 +143,15 @@ body {
     @apply bg-linear-to-br from-emerald-100 via-teal-50 to-green-100;
   }
 }
+
+/* Remove spinners from number inputs */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}

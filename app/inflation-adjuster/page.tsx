@@ -1,18 +1,14 @@
-'use client'
+"use client";
 
-import { useState, useMemo } from "react";
 import { TrendingDown } from "lucide-react";
 import { CalculatorLayout } from "@/components/CalculatorLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Decimal } from "@/core/domain/financial-types";
-import {
-  calculateInflationAdjustedValue,
-  generateInflationProjection,
-} from "@/core/services/inflationAdjuster";
+import { SliderInputField } from "@/components/calculator/SliderInputField";
+import { useInflationAdjuster } from "@/hooks/useInflationAdjuster";
+import { INFLATION_ADJUSTER_CONSTANTS } from "@/core/domain/calculator-constants";
 import {
   XAxis,
   YAxis,
@@ -24,40 +20,17 @@ import {
 } from "recharts";
 
 export default function InflationAdjuster() {
-  const [futureValue, setFutureValue] = useState<string>("100000");
-  const [inflationRate, setInflationRate] = useState<number>(5);
-  const [years, setYears] = useState<number>(10);
-
-  const result = useMemo(() => {
-    const value = Number.parseFloat(futureValue) || 0;
-    if (value <= 0) return null;
-
-    return calculateInflationAdjustedValue({
-      futureValue: new Decimal(value),
-      inflationRate: new Decimal(inflationRate),
-      years,
-    });
-  }, [futureValue, inflationRate, years]);
-
-  const projection = useMemo(() => {
-    const value = Number.parseFloat(futureValue) || 0;
-    if (value <= 0) return [];
-
-    return generateInflationProjection(
-      new Decimal(value),
-      new Decimal(inflationRate),
-      years,
-    );
-  }, [futureValue, inflationRate, years]);
-
-  const chartData = useMemo(() => {
-    return projection.map((p) => ({
-      year: `Ano ${p.year}`,
-      valorReal: Number(p.realValue.toFixed(2)),
-      valorNominal: Number(p.nominalValue.toFixed(2)),
-      perda: p.lossPercentage,
-    }));
-  }, [projection]);
+  const {
+    futureValue,
+    inflationRate,
+    years,
+    setFutureValue,
+    setInflationRate,
+    setYears,
+    result,
+    projection,
+    chartData,
+  } = useInflationAdjuster();
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("pt-BR", {
@@ -87,48 +60,41 @@ export default function InflationAdjuster() {
                 value={futureValue}
                 onChange={(e) => setFutureValue(e.target.value)}
                 placeholder="100.000"
+                className="text-center text-lg font-semibold transition-all focus:scale-[1.02] focus:shadow-md"
               />
               <p className="text-xs text-muted-foreground">
                 Quanto você terá ou receberá no futuro
               </p>
             </div>
 
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <Label>Taxa de Inflação (IPCA)</Label>
-                <span className="text-sm font-medium text-primary">
-                  {inflationRate.toFixed(1)}% a.a.
-                </span>
-              </div>
-              <Slider
-                value={[inflationRate]}
-                onValueChange={(v) => setInflationRate(v[0])}
-                min={0}
-                max={15}
-                step={0.1}
-                className="w-full"
-              />
-              <p className="text-xs text-muted-foreground">
+            <SliderInputField
+              id="inflation-rate"
+              label="Taxa de Inflação (IPCA)"
+              value={inflationRate}
+              onChange={setInflationRate}
+              displayValue={`${inflationRate.toFixed(1)}% a.a.`}
+              inputStep="0.1"
+              min={INFLATION_ADJUSTER_CONSTANTS.INFLATION_RATE.MIN}
+              max={INFLATION_ADJUSTER_CONSTANTS.INFLATION_RATE.MAX}
+              step={INFLATION_ADJUSTER_CONSTANTS.INFLATION_RATE.STEP}
+              inputClassName="font-mono text-center text-lg font-semibold transition-all focus:scale-[1.02] focus:shadow-md"
+            >
+              <p className="text-xs text-muted-foreground mt-2">
                 Inflação média anual esperada
               </p>
-            </div>
+            </SliderInputField>
 
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <Label>Período</Label>
-                <span className="text-sm font-medium text-primary">
-                  {years} {years === 1 ? "ano" : "anos"}
-                </span>
-              </div>
-              <Slider
-                value={[years]}
-                onValueChange={(v) => setYears(v[0])}
-                min={1}
-                max={30}
-                step={1}
-                className="w-full"
-              />
-            </div>
+            <SliderInputField
+              id="years"
+              label="Período"
+              value={years}
+              onChange={setYears}
+              displayValue={`${years} ${years === 1 ? "ano" : "anos"}`}
+              min={INFLATION_ADJUSTER_CONSTANTS.YEARS.MIN}
+              max={INFLATION_ADJUSTER_CONSTANTS.YEARS.MAX}
+              step={INFLATION_ADJUSTER_CONSTANTS.YEARS.STEP}
+              inputClassName="font-mono text-center text-lg font-semibold transition-all focus:scale-[1.02] focus:shadow-md"
+            />
           </CardContent>
         </Card>
 
@@ -227,8 +193,8 @@ export default function InflationAdjuster() {
 
                 <p className="text-sm text-muted-foreground text-center">
                   O gráfico mostra como o poder de compra de{" "}
-                  {formatCurrency(Number.parseFloat(futureValue) || 0)} diminui ao
-                  longo de {years} anos com inflação de {inflationRate}% a.a.
+                  {formatCurrency(Number.parseFloat(futureValue) || 0)} diminui
+                  ao longo de {years} anos com inflação de {inflationRate}% a.a.
                 </p>
               </TabsContent>
 
