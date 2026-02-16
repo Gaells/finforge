@@ -21,9 +21,12 @@ export function useInvestmentComparator() {
         years: 10,
     });
 
+    const [inflationRate, setInflationRate] = useState<number>(4.5);
+    const [isInflationAdjusted, setIsInflationAdjusted] = useState<boolean>(false);
+
     const comparisonResult: ComparisonResult = useMemo(() => {
-        return InvestmentComparatorService.compare(scenarioA, scenarioB);
-    }, [scenarioA, scenarioB]);
+        return InvestmentComparatorService.compare(scenarioA, scenarioB, inflationRate);
+    }, [scenarioA, scenarioB, inflationRate]);
 
     const updateScenarioA = (updates: Partial<InvestmentScenario>) => {
         setScenarioA((prev) => ({ ...prev, ...updates }));
@@ -42,8 +45,14 @@ export function useInvestmentComparator() {
         scenarioA,
         scenarioB,
         comparisonResult,
+        inputState: {
+            inflationRate,
+            isInflationAdjusted
+        },
         updateScenarioA,
         updateScenarioB,
-        setGlobalYears
+        setGlobalYears,
+        setInflationRate,
+        setIsInflationAdjusted
     };
 }

@@ -4,6 +4,7 @@ import { Scale } from "lucide-react";
 import { CalculatorLayout } from "@/components/CalculatorLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SliderInputField } from "@/components/calculator/SliderInputField";
+import { InflationControls } from "@/components/calculator/InflationControls";
 import { useInvestmentComparator } from "@/hooks/useInvestmentComparator";
 import {
     XAxis,
@@ -16,14 +17,58 @@ import {
     Legend,
 } from "recharts";
 
+interface TooltipPayload {
+    value: number;
+    name: string;
+    color: string;
+}
+
+interface CustomTooltipProps {
+    active?: boolean;
+    payload?: TooltipPayload[];
+    label?: string;
+    formatter: (value: number) => string;
+}
+
+const CustomTooltip = ({ active, payload, label, formatter }: CustomTooltipProps) => {
+    if (active && payload && payload.length) {
+        return (
+            <div className="bg-card border border-border p-4 rounded-lg shadow-lg">
+                <p className="font-semibold mb-2">Ano {label}</p>
+                {payload.map((entry: TooltipPayload, index: number) => (
+                    <div key={index} className="flex items-center gap-2 mb-1" style={{ color: entry.color }}>
+                        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: entry.color }} />
+                        <span className="text-sm font-medium">{entry.name}:</span>
+                        <span className="text-sm font-bold ml-auto">{formatter(entry.value)}</span>
+                    </div>
+                ))}
+                {payload.length >= 2 && (
+                    <div className="mt-2 pt-2 border-t border-border/50">
+                        <div className="flex justify-between items-center gap-4">
+                            <span className="text-sm text-muted-foreground">Diferença:</span>
+                            <span className="text-sm font-bold text-foreground">
+                                {formatter(Math.abs(payload[0].value - payload[1].value))}
+                            </span>
+                        </div>
+                    </div>
+                )}
+            </div>
+        );
+    }
+    return null;
+};
+
 export default function InvestmentComparatorPage() {
     const {
         scenarioA,
         scenarioB,
         comparisonResult,
+        inputState: { inflationRate, isInflationAdjusted },
         updateScenarioA,
         updateScenarioB,
-        setGlobalYears
+        setGlobalYears,
+        setInflationRate,
+        setIsInflationAdjusted
     } = useInvestmentComparator();
 
     const formatCurrency = (value: number) => {
@@ -37,15 +82,31 @@ export default function InvestmentComparatorPage() {
     const chartData = comparisonResult.scenarioA.timeline.map((point, index) => {
         const pointA = point;
         const pointB = comparisonResult.scenarioB.timeline[index];
+
+        const valA = isInflationAdjusted ? pointA?.realTotalAmount : pointA?.totalAmount;
+        const valB = isInflationAdjusted ? pointB?.realTotalAmount : pointB?.totalAmount;
+
         return {
             year: point.year,
-            [scenarioA.name]: pointA?.totalAmount.toNumber() || 0,
-            [scenarioB.name]: pointB?.totalAmount.toNumber() || 0,
+            [scenarioA.name]: valA?.toNumber() || 0,
+            [scenarioB.name]: valB?.toNumber() || 0,
         };
     });
 
-    const winnerName = comparisonResult.difference.winnerId === scenarioA.id ? scenarioA.name : scenarioB.name;
-    const winnerColor = comparisonResult.difference.winnerId === scenarioA.id ? "hsl(var(--primary))" : "hsl(var(--accent))";
+    const finalA = isInflationAdjusted ? comparisonResult.scenarioA.realFinalAmount : comparisonResult.scenarioA.finalAmount;
+    const finalB = isInflationAdjusted ? comparisonResult.scenarioB.realFinalAmount : comparisonResult.scenarioB.finalAmount;
+
+    const diff = finalA.minus(finalB);
+    const winnerId = diff.isPositive() ? scenarioA.id : scenarioB.id;
+
+    let diffPercent = 0;
+    const baseVal = winnerId === scenarioA.id ? finalB : finalA;
+    if (!baseVal.isZero()) {
+        diffPercent = diff.abs().dividedBy(baseVal).times(100).toNumber();
+    }
+
+    const winnerName = winnerId === scenarioA.id ? scenarioA.name : scenarioB.name;
+    const winnerColor = winnerId === scenarioA.id ? "hsl(var(--primary))" : "hsl(var(--accent))";
 
     return (
         <CalculatorLayout
@@ -53,6 +114,32 @@ export default function InvestmentComparatorPage() {
             description="Compare dois cenários de investimento lado a lado para tomar a melhor decisão financeira."
             icon={<Scale className="w-5 h-5" />}
         >
+            <Card className="mb-6 border-muted bg-muted/10">
+                <CardContent className="pt-6 flex flex-col md:flex-row gap-6 items-end">
+                    <div className="flex-1 w-full">
+                        <SliderInputField
+                            id="years"
+                            label="Período de Comparação"
+                            value={scenarioA.years}
+                            onChange={setGlobalYears}
+                            displayValue={`${scenarioA.years} anos`}
+                            min={1}
+                            max={50}
+                            step={1}
+                        />
+                    </div>
+
+                    <div className="flex-1 w-full flex flex-col gap-4">
+                        <InflationControls
+                            inflationRate={inflationRate}
+                            setInflationRate={setInflationRate}
+                            isInflationAdjusted={isInflationAdjusted}
+                            setIsInflationAdjusted={setIsInflationAdjusted}
+                        />
+                    </div>
+                </CardContent>
+            </Card>
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <Card className="border-primary/20 bg-primary/5">
                     <CardHeader>
@@ -133,46 +220,38 @@ export default function InvestmentComparatorPage() {
                 </Card>
             </div>
 
-            <Card className="mb-8">
-                <CardContent className="pt-6">
-                    <SliderInputField
-                        id="years"
-                        label="Período de Comparação (Anos)"
-                        value={scenarioA.years}
-                        onChange={setGlobalYears}
-                        displayValue={`${scenarioA.years} anos`}
-                        min={1}
-                        max={50}
-                        step={1}
-                    />
-                </CardContent>
-            </Card>
-
             <Card>
                 <CardHeader>
-                    <CardTitle>Resultado da Comparação</CardTitle>
+                    <CardTitle className="flex justify-between items-center">
+                        <span>Resultado da Comparação</span>
+                        {isInflationAdjusted && (
+                            <span className="text-sm font-normal text-muted-foreground bg-muted px-2 py-1 rounded">
+                                Valores Reais (Descontada Inflação)
+                            </span>
+                        )}
+                    </CardTitle>
                 </CardHeader>
                 <CardContent>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
                         <div className="p-4 rounded-lg bg-muted/50 text-center">
                             <p className="text-sm text-muted-foreground mb-1">Diferença Final</p>
                             <p className="text-2xl font-bold" style={{ color: winnerColor }}>
-                                {formatCurrency(comparisonResult.difference.finalAmount.toNumber())}
+                                {formatCurrency(diff.abs().toNumber())}
                             </p>
                             <p className="text-xs text-muted-foreground mt-1">
-                                {comparisonResult.difference.percentage.toFixed(2)}% a mais para {winnerName}
+                                {diffPercent.toFixed(2)}% a mais para {winnerName}
                             </p>
                         </div>
                         <div className="p-4 rounded-lg bg-primary/10 border border-primary/20 text-center">
                             <p className="text-sm text-muted-foreground mb-1">Total {scenarioA.name}</p>
                             <p className="text-xl font-bold text-primary">
-                                {formatCurrency(comparisonResult.scenarioA.finalAmount.toNumber())}
+                                {formatCurrency(finalA.toNumber())}
                             </p>
                         </div>
                         <div className="p-4 rounded-lg bg-accent/10 border border-accent/20 text-center">
                             <p className="text-sm text-muted-foreground mb-1">Total {scenarioB.name}</p>
                             <p className="text-xl font-bold text-accent">
-                                {formatCurrency(comparisonResult.scenarioB.finalAmount.toNumber())}
+                                {formatCurrency(finalB.toNumber())}
                             </p>
                         </div>
                     </div>
@@ -193,14 +272,7 @@ export default function InvestmentComparatorPage() {
                                 <XAxis dataKey="year" />
                                 <YAxis tickFormatter={(value) => `R$ ${(value / 1000).toFixed(0)}k`} />
                                 <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
-                                <Tooltip
-                                    formatter={(value: number) => formatCurrency(value)}
-                                    contentStyle={{
-                                        backgroundColor: "hsl(var(--card))",
-                                        border: "1px solid hsl(var(--border))",
-                                        borderRadius: "8px",
-                                    }}
-                                />
+                                <Tooltip content={<CustomTooltip formatter={formatCurrency} />} />
                                 <Legend />
                                 <Area
                                     type="monotone"

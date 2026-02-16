@@ -14,6 +14,7 @@ export interface YearData {
     investedAmount: Decimal;
     interestEarned: Decimal;
     totalAmount: Decimal;
+    realTotalAmount: Decimal;
 }
 
 export interface ScenarioResult {
@@ -21,6 +22,7 @@ export interface ScenarioResult {
     totalInvested: Decimal;
     totalInterest: Decimal;
     finalAmount: Decimal;
+    realFinalAmount: Decimal;
     timeline: YearData[];
 }
 

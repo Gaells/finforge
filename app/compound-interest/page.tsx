@@ -19,6 +19,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SliderInputField } from "@/components/calculator/SliderInputField";
 import { useCompoundInterestCalculator } from "@/hooks/useCompoundInterestCalculator";
 import { COMPOUND_INTEREST_CONSTANTS } from "@/core/domain/calculator-constants";
+import { InflationControls } from "@/components/calculator/InflationControls";
 
 function formatCurrency(value: number | Decimal): string {
   const num = value instanceof Decimal ? value.toNumber() : value;
@@ -45,10 +46,14 @@ export default function CompoundInterestPage() {
     monthlyContribution,
     annualRate,
     years,
+    inflationRate,
+    isInflationAdjusted,
     setPrincipal,
     setMonthlyContribution,
     setAnnualRate,
     setYears,
+    setInflationRate,
+    setIsInflationAdjusted,
     result,
     chartData,
   } = useCompoundInterestCalculator();
@@ -113,6 +118,13 @@ export default function CompoundInterestPage() {
               min={COMPOUND_INTEREST_CONSTANTS.YEARS.MIN}
               max={COMPOUND_INTEREST_CONSTANTS.YEARS.MAX}
               step={COMPOUND_INTEREST_CONSTANTS.YEARS.STEP}
+            />
+
+            <InflationControls
+              inflationRate={inflationRate}
+              setInflationRate={setInflationRate}
+              isInflationAdjusted={isInflationAdjusted}
+              setIsInflationAdjusted={setIsInflationAdjusted}
             />
           </CardContent>
         </Card>
@@ -204,6 +216,24 @@ export default function CompoundInterestPage() {
                           stopOpacity={0}
                         />
                       </linearGradient>
+                      <linearGradient
+                        id="colorReal"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                      >
+                        <stop
+                          offset="5%"
+                          stopColor="hsl(var(--primary))"
+                          stopOpacity={0.8}
+                        />
+                        <stop
+                          offset="95%"
+                          stopColor="hsl(var(--primary))"
+                          stopOpacity={0}
+                        />
+                      </linearGradient>
                     </defs>
                     <CartesianGrid
                       strokeDasharray="3 3"
@@ -222,10 +252,12 @@ export default function CompoundInterestPage() {
                       formatter={(value: number, name: string) => [
                         formatCurrency(value),
                         name === "patrimonio"
-                          ? "Patrimônio"
-                          : name === "investido"
-                            ? "Investido"
-                            : "Juros",
+                          ? "Patrimônio Nominal"
+                          : name === "patrimonioReal"
+                            ? "Patrimônio Real"
+                            : name === "investido"
+                              ? "Investido"
+                              : "Juros",
                       ]}
                       labelFormatter={(v) => `Ano ${v}`}
                       contentStyle={{
@@ -240,7 +272,9 @@ export default function CompoundInterestPage() {
                           ? "Patrimônio Total"
                           : value === "investido"
                             ? "Total Investido"
-                            : value
+                            : value === "patrimonioReal"
+                              ? "Patrimônio Real (IPCA)"
+                              : value
                       }
                     />
                     <Area
@@ -256,7 +290,19 @@ export default function CompoundInterestPage() {
                       stroke="hsl(160, 84%, 39%)"
                       fill="url(#colorPatrimonio)"
                       strokeWidth={2}
+                      name="patrimonio"
                     />
+                    {isInflationAdjusted && (
+                      <Area
+                        type="monotone"
+                        dataKey="patrimonioReal"
+                        stroke="hsl(var(--primary))"
+                        fill="url(#colorReal)"
+                        strokeWidth={2}
+                        strokeDasharray="5 5"
+                        name="patrimonioReal"
+                      />
+                    )}
                   </AreaChart>
                 </ResponsiveContainer>
               </div>

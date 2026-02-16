@@ -1,44 +1,71 @@
 import {
   Decimal,
-  CompoundInterestParams,
   CompoundInterestResult,
-  MonthlySnapshot,
 } from "../domain/financial-types";
 
-export function calculateCompoundInterest(
-  params: CompoundInterestParams,
-): CompoundInterestResult {
-  const { principal, monthlyContribution, annualRate, months } = params;
-  const monthlyRate = annualRate.div(100).div(12);
-  const monthlyData: MonthlySnapshot[] = [];
-  let currentBalance = principal;
-  let totalInvested = principal;
+const RateConverter = {
+  annualToMonthly: (annualRate: number): Decimal => {
+    return new Decimal(annualRate).div(100).div(12);
+  },
+};
 
-  for (let month = 1; month <= months; month++) {
-    currentBalance = currentBalance.plus(monthlyContribution);
-    totalInvested = totalInvested.plus(monthlyContribution);
+export const CompoundInterestService = {
+  calculate: (
+    principal: number,
+    monthlyContribution: number,
+    annualRate: number,
+    years: number,
+    inflationRate: number = 0
+  ): CompoundInterestResult => {
+    const months = years * 12;
+    const monthlyRate = RateConverter.annualToMonthly(annualRate);
+    const inflationRateDecimal = new Decimal(inflationRate).dividedBy(100);
 
-    const interestThisMonth = currentBalance.mul(monthlyRate);
-    currentBalance = currentBalance.plus(interestThisMonth);
+    let currentBalance = new Decimal(principal);
+    let totalInvested = new Decimal(principal);
+    const timeline = [];
 
-    monthlyData.push({
-      month,
-      balance: currentBalance,
-      invested: totalInvested,
-      interest: currentBalance.minus(totalInvested),
+    timeline.push({
+      ano: 0,
+      investido: totalInvested.toNumber(),
+      juros: 0,
+      patrimonio: currentBalance.toNumber(),
+      patrimonioReal: currentBalance.toNumber(),
     });
-  }
 
-  const finalAmount = currentBalance;
-  const totalInterest = finalAmount.minus(totalInvested);
+    for (let i = 1; i <= months; i++) {
+      currentBalance = currentBalance.plus(monthlyContribution);
+      totalInvested = totalInvested.plus(monthlyContribution);
+      currentBalance = currentBalance.plus(currentBalance.times(monthlyRate));
 
-  return {
-    finalAmount,
-    totalInvested,
-    totalInterest,
-    monthlyData,
-  };
-}
+      if (i % 12 === 0) {
+        const year = i / 12;
+        const discountFactor = new Decimal(1).plus(inflationRateDecimal).pow(year);
+        const realTotalAmount = currentBalance.dividedBy(discountFactor);
+
+        timeline.push({
+          ano: year,
+          investido: totalInvested.toNumber(),
+          juros: currentBalance.minus(totalInvested).toNumber(),
+          patrimonio: currentBalance.toNumber(),
+          patrimonioReal: realTotalAmount.toNumber(),
+        });
+      }
+    }
+
+    const finalAmount = currentBalance;
+    const totalInterest = finalAmount.minus(totalInvested);
+    const realFinalAmount = new Decimal(timeline[timeline.length - 1].patrimonioReal);
+
+    return {
+      totalInvested,
+      totalInterest,
+      finalAmount,
+      realFinalAmount,
+      timeline,
+    };
+  },
+};
 
 export function calculateTimeToGoal(
   principal: Decimal,

@@ -1,6 +1,5 @@
 import { useState, useMemo } from "react";
-import Decimal from "decimal.js";
-import { calculateCompoundInterest } from "@/core/services/compoundInterest";
+import { CompoundInterestService } from "@/core/services/compoundInterest";
 import { COMPOUND_INTEREST_CONSTANTS } from "@/core/domain/calculator-constants";
 
 export function useCompoundInterestCalculator() {
@@ -13,50 +12,29 @@ export function useCompoundInterestCalculator() {
   const [annualRate, setAnnualRate] = useState<number>(
     COMPOUND_INTEREST_CONSTANTS.ANNUAL_RATE.DEFAULT,
   );
-  const [years, setYears] = useState<number>(
-    COMPOUND_INTEREST_CONSTANTS.YEARS.DEFAULT,
-  );
+  const [years, setYears] = useState<number>(COMPOUND_INTEREST_CONSTANTS.YEARS.DEFAULT);
+  const [inflationRate, setInflationRate] = useState(4.5);
+  const [isInflationAdjusted, setIsInflationAdjusted] = useState(false);
 
   const result = useMemo(() => {
-    return calculateCompoundInterest({
-      principal: new Decimal(principal),
-      monthlyContribution: new Decimal(monthlyContribution),
-      annualRate: new Decimal(annualRate),
-      months: years * 12,
-    });
-  }, [principal, monthlyContribution, annualRate, years]);
+    return CompoundInterestService.calculate(
+      principal,
+      monthlyContribution,
+      annualRate,
+      years,
+      isInflationAdjusted ? inflationRate : 0
+    );
+  }, [principal, monthlyContribution, annualRate, years, inflationRate, isInflationAdjusted]);
 
-  // Prepare chart data (annual snapshots)
   const chartData = useMemo(() => {
-    const data: Array<{
-      ano: number;
-      patrimonio: number;
-      investido: number;
-      juros: number;
-    }> = [];
-
-    // Add initial point
-    data.push({
-      ano: 0,
-      patrimonio: principal,
-      investido: principal,
-      juros: 0,
-    });
-
-    // Add yearly data
-    result.monthlyData.forEach((snapshot) => {
-      if (snapshot.month % 12 === 0) {
-        data.push({
-          ano: snapshot.month / 12,
-          patrimonio: snapshot.balance.toNumber(),
-          investido: snapshot.invested.toNumber(),
-          juros: snapshot.interest.toNumber(),
-        });
-      }
-    });
-
-    return data;
-  }, [result, principal]);
+    return result.timeline.map((item) => ({
+      ano: item.ano,
+      investido: item.investido,
+      juros: item.juros,
+      patrimonio: item.patrimonio,
+      patrimonioReal: item.patrimonioReal,
+    }));
+  }, [result]);
 
   return {
     // State
@@ -64,12 +42,16 @@ export function useCompoundInterestCalculator() {
     monthlyContribution,
     annualRate,
     years,
+    inflationRate,
+    isInflationAdjusted,
 
     // Setters
     setPrincipal,
     setMonthlyContribution,
     setAnnualRate,
     setYears,
+    setInflationRate,
+    setIsInflationAdjusted,
 
     // Computed values
     result,

@@ -4,7 +4,7 @@ import {
   annualToMonthlyRate,
   monthlyToAnnualRate,
   convertRate,
-} from "../rateConverter";
+} from "@/core/services/rateConverter";
 
 describe("rateConverter", () => {
   describe("annualToMonthlyRate", () => {

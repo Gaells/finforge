@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import Decimal from "decimal.js";
-import { calculateSimpleInterest } from "../SimpleInterest";
+import { calculateSimpleInterest } from "@/core/services/SimpleInterest";
 
 describe("calculateSimpleInterest", () => {
   it("should calculate simple interest correctly for yearly periods", () => {

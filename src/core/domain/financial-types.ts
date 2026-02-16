@@ -16,10 +16,17 @@ export interface CompoundInterestParams {
 }
 
 export interface CompoundInterestResult {
-  finalAmount: Decimal;
   totalInvested: Decimal;
   totalInterest: Decimal;
-  monthlyData: MonthlySnapshot[];
+  finalAmount: Decimal;
+  realFinalAmount?: Decimal;
+  timeline: Array<{
+    ano: number;
+    investido: number;
+    juros: number;
+    patrimonio: number;
+    patrimonioReal?: number;
+  }>;
 }
 
 export interface MonthlySnapshot {
