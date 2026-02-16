@@ -11,6 +11,7 @@ import {
   Percent,
   TrendingDown,
   Sparkles,
+  Scale,
 } from "lucide-react";
 
 const features = [
@@ -53,6 +54,14 @@ const features = [
     icon: TrendingDown,
     href: "/inflation-adjuster",
     gradient: "primary" as const,
+  },
+  {
+    title: "Comparador de Investimentos",
+    description:
+      "Compare dois cenários de investimento lado a lado para tomar a melhor decisão financeira.",
+    icon: Scale,
+    href: "/investment-comparator",
+    gradient: "accent" as const,
   },
 ];
 
