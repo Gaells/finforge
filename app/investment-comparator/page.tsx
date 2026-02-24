@@ -234,7 +234,7 @@ export default function InvestmentComparatorPage() {
                 <CardContent>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
                         <div className="p-4 rounded-lg bg-muted text-center">
-                            <p className="text-sm text-muted-foreground mb-1">Diferenca Final</p>
+                            <p className="text-sm text-muted-foreground mb-1">Diferença Final</p>
                             <p className="text-2xl font-bold" style={{ color: winnerColor }}>
                                 {formatCurrency(diff.abs().toNumber())}
                             </p>
