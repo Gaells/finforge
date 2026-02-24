@@ -149,18 +149,18 @@ export default function CompoundInterestPage() {
               </Card>
             </motion.div>
 
-            <Card>
+            <Card className="border-border">
               <CardContent className="pt-6">
                 <p className="text-sm text-muted-foreground mb-1">
                   Total Investido
                 </p>
-                <p className="text-2xl font-bold text-foreground">
+                <p className="text-2xl font-bold text-card-foreground">
                   {formatCurrency(result.totalInvested)}
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="border-success/30 bg-success/5">
+            <Card className="border-success/40 bg-success/10">
               <CardContent className="pt-6">
                 <p className="text-sm text-success mb-1">Juros Ganhos</p>
                 <p className="text-2xl font-bold text-success">

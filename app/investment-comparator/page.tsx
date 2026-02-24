@@ -114,7 +114,7 @@ export default function InvestmentComparatorPage() {
             description="Compare dois cenários de investimento lado a lado para tomar a melhor decisão financeira."
             icon={<Scale className="w-5 h-5" />}
         >
-            <Card className="mb-6 border-muted bg-muted/10">
+            <Card className="mb-6 border-border bg-muted/20">
                 <CardContent className="pt-6 flex flex-col md:flex-row gap-6 items-end">
                     <div className="flex-1 w-full">
                         <SliderInputField
@@ -141,7 +141,7 @@ export default function InvestmentComparatorPage() {
             </Card>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <Card className="border-primary/20 bg-primary/5">
+                <Card className="border-primary/30 bg-primary/5">
                     <CardHeader>
                         <CardTitle className="text-lg text-primary">{scenarioA.name}</CardTitle>
                     </CardHeader>
@@ -180,7 +180,7 @@ export default function InvestmentComparatorPage() {
                     </CardContent>
                 </Card>
 
-                <Card className="border-accent/20 bg-accent/5">
+                <Card className="border-accent/30 bg-accent/5">
                     <CardHeader>
                         <CardTitle className="text-lg text-accent">{scenarioB.name}</CardTitle>
                     </CardHeader>
@@ -233,8 +233,8 @@ export default function InvestmentComparatorPage() {
                 </CardHeader>
                 <CardContent>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                        <div className="p-4 rounded-lg bg-muted/50 text-center">
-                            <p className="text-sm text-muted-foreground mb-1">Diferença Final</p>
+                        <div className="p-4 rounded-lg bg-muted text-center">
+                            <p className="text-sm text-muted-foreground mb-1">Diferenca Final</p>
                             <p className="text-2xl font-bold" style={{ color: winnerColor }}>
                                 {formatCurrency(diff.abs().toNumber())}
                             </p>
@@ -242,13 +242,13 @@ export default function InvestmentComparatorPage() {
                                 {diffPercent.toFixed(2)}% a mais para {winnerName}
                             </p>
                         </div>
-                        <div className="p-4 rounded-lg bg-primary/10 border border-primary/20 text-center">
+                        <div className="p-4 rounded-lg bg-primary/10 border border-primary/30 text-center">
                             <p className="text-sm text-muted-foreground mb-1">Total {scenarioA.name}</p>
                             <p className="text-xl font-bold text-primary">
                                 {formatCurrency(finalA.toNumber())}
                             </p>
                         </div>
-                        <div className="p-4 rounded-lg bg-accent/10 border border-accent/20 text-center">
+                        <div className="p-4 rounded-lg bg-accent/10 border border-accent/30 text-center">
                             <p className="text-sm text-muted-foreground mb-1">Total {scenarioB.name}</p>
                             <p className="text-xl font-bold text-accent">
                                 {formatCurrency(finalB.toNumber())}

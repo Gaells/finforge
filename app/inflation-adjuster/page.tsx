@@ -113,15 +113,15 @@ export default function InflationAdjuster() {
               <TabsContent value="visual" className="space-y-6">
                 {/* Summary Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="p-4 rounded-lg bg-primary/10 border border-primary/20">
+                  <div className="p-4 rounded-lg bg-primary/10 border border-primary/30">
                     <p className="text-sm text-muted-foreground mb-1">
                       Valor Nominal
                     </p>
-                    <p className="text-xl font-bold text-foreground">
+                    <p className="text-xl font-bold text-card-foreground">
                       {formatCurrency(Number.parseFloat(futureValue) || 0)}
                     </p>
                   </div>
-                  <div className="p-4 rounded-lg bg-accent/10 border border-accent/20">
+                  <div className="p-4 rounded-lg bg-accent/10 border border-accent/30">
                     <p className="text-sm text-muted-foreground mb-1">
                       Valor Real (Hoje)
                     </p>
@@ -131,7 +131,7 @@ export default function InflationAdjuster() {
                         : "R$ 0,00"}
                     </p>
                   </div>
-                  <div className="p-4 rounded-lg bg-destructive/10 border border-destructive/20">
+                  <div className="p-4 rounded-lg bg-destructive/10 border border-destructive/30">
                     <p className="text-sm text-muted-foreground mb-1">
                       Perda de Poder de Compra
                     </p>
@@ -219,7 +219,7 @@ export default function InflationAdjuster() {
                       {projection.map((p) => (
                         <tr
                           key={p.year}
-                          className="border-b border-border/50 hover:bg-muted/50"
+                          className="border-b border-border/50 hover:bg-muted/80 transition-colors"
                         >
                           <td className="py-3 px-2">{p.year}</td>
                           <td className="text-right py-3 px-2">

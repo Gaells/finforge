@@ -66,7 +66,7 @@ export default function RateConverterPage() {
                       <button
                         key={rate}
                         onClick={() => setAnnualRate(rate)}
-                        className="px-3 py-1 text-sm rounded-full bg-muted hover:bg-primary/10 hover:text-primary transition-colors"
+                        className="px-3 py-1 text-sm rounded-full bg-secondary text-secondary-foreground hover:bg-primary/15 hover:text-primary transition-colors"
                       >
                         {rate}%
                       </button>
@@ -144,7 +144,7 @@ export default function RateConverterPage() {
                       <button
                         key={rate}
                         onClick={() => setMonthlyInputRate(rate)}
-                        className="px-3 py-1 text-sm rounded-full bg-muted hover:bg-primary/10 hover:text-primary transition-colors"
+                        className="px-3 py-1 text-sm rounded-full bg-secondary text-secondary-foreground hover:bg-primary/15 hover:text-primary transition-colors"
                       >
                         {rate}%
                       </button>
@@ -195,7 +195,7 @@ export default function RateConverterPage() {
       </Tabs>
 
       {/* Info Card */}
-      <Card className="max-w-3xl mt-8 bg-muted/30">
+      <Card className="max-w-3xl mt-8 bg-muted/20 border-border">
         <CardContent className="pt-6">
           <h4 className="font-semibold mb-3">
             Por que taxas equivalentes importam?

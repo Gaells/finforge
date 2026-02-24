@@ -19,7 +19,7 @@ export function InflationControls({
 }: InflationControlsProps) {
     return (
         <div className="flex flex-col gap-4 w-full">
-            <div className="flex items-center justify-between space-x-2 border p-3 rounded-lg bg-background">
+            <div className="flex items-center justify-between space-x-2 border border-border p-3 rounded-lg bg-card">
                 <Label htmlFor="inflation-mode" className="flex flex-col cursor-pointer">
                     <span className="font-semibold">Ajustar pela Inflação</span>
                     <span className="text-xs text-muted-foreground">
