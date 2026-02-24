@@ -188,7 +188,7 @@ export default function FireCalculatorPage() {
                 </p>
                 {isFireReached ? (
                   <p className="text-2xl font-bold text-success">
-                    Voce ja chegou!
+                    Você já chegou!
                   </p>
                 ) : result.yearsToFire >= 100 ? (
                   <p className="text-2xl font-bold text-destructive">
