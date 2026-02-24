@@ -128,7 +128,7 @@ export function Dashboard() {
             >
               {[
                 { value: "6", label: "Calculadoras" },
-                { value: "∞", label: "Precisao Decimal" },
+                { value: "∞", label: "Precisão Decimal" },
                 { value: "100%", label: "Gratuito" },
               ].map((stat, index) => (
                 <div key={index} className="text-center">
