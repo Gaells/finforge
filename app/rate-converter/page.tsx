@@ -66,7 +66,7 @@ export default function RateConverterPage() {
                       <button
                         key={rate}
                         onClick={() => setAnnualRate(rate)}
-                        className="px-3 py-1 text-sm rounded-full bg-muted hover:bg-primary/10 hover:text-primary transition-colors"
+                        className="px-3 py-1 text-sm rounded-full bg-secondary text-secondary-foreground hover:bg-primary/15 hover:text-primary transition-colors"
                       >
                         {rate}%
                       </button>
@@ -97,11 +97,11 @@ export default function RateConverterPage() {
                     <p className="text-muted-foreground mt-2">ao mês</p>
                   </div>
 
-                  <div className="bg-muted/50 rounded-lg p-4 mt-4">
+                  <div className="bg-muted rounded-lg p-4 mt-4">
                     <p className="text-sm text-muted-foreground mb-2">
                       Fórmula:
                     </p>
-                    <p className="font-mono text-sm">
+                    <p className="font-mono text-sm text-foreground">
                       i<sub>m</sub> = (1 + i<sub>a</sub>)<sup>1/12</sup> - 1
                     </p>
                     <p className="font-mono text-xs text-muted-foreground mt-2">
@@ -144,7 +144,7 @@ export default function RateConverterPage() {
                       <button
                         key={rate}
                         onClick={() => setMonthlyInputRate(rate)}
-                        className="px-3 py-1 text-sm rounded-full bg-muted hover:bg-primary/10 hover:text-primary transition-colors"
+                        className="px-3 py-1 text-sm rounded-full bg-secondary text-secondary-foreground hover:bg-primary/15 hover:text-primary transition-colors"
                       >
                         {rate}%
                       </button>
@@ -175,11 +175,11 @@ export default function RateConverterPage() {
                     <p className="text-muted-foreground mt-2">ao ano</p>
                   </div>
 
-                  <div className="bg-muted/50 rounded-lg p-4 mt-4">
+                  <div className="bg-muted rounded-lg p-4 mt-4">
                     <p className="text-sm text-muted-foreground mb-2">
                       Fórmula:
                     </p>
-                    <p className="font-mono text-sm">
+                    <p className="font-mono text-sm text-foreground">
                       i<sub>a</sub> = (1 + i<sub>m</sub>)<sup>12</sup> - 1
                     </p>
                     <p className="font-mono text-xs text-muted-foreground mt-2">
@@ -195,7 +195,7 @@ export default function RateConverterPage() {
       </Tabs>
 
       {/* Info Card */}
-      <Card className="max-w-3xl mt-8 bg-muted/30">
+      <Card className="max-w-3xl mt-8 bg-muted/20 border-border">
         <CardContent className="pt-6">
           <h4 className="font-semibold mb-3">
             Por que taxas equivalentes importam?

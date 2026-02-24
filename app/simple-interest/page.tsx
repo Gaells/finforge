@@ -123,14 +123,14 @@ export default function SimpleInterestPage() {
         {/* Results Panel */}
         <div className="space-y-6">
           {/* Formula Display */}
-          <Card className="bg-muted/50">
+          <Card className="bg-muted/50 border-border">
             <CardContent className="pt-6">
               <p className="text-sm text-muted-foreground mb-2">
                 Fórmula aplicada:
               </p>
-              <div className="font-mono text-lg">J = P × i × t</div>
+              <div className="font-mono text-lg text-foreground">{"J = P x i x t"}</div>
               <div className="font-mono text-sm text-muted-foreground mt-2">
-                J = {formatCurrency(principal)} × {rate}% ×{" "}
+                {"J = "}{formatCurrency(principal)}{" x "}{rate}%{" x "}
                 {effectiveTime.toFixed(2)} anos
               </div>
             </CardContent>

@@ -19,9 +19,9 @@ export function ResultCard({
   const getCardClassName = () => {
     switch (variant) {
       case "primary":
-        return "bg-primary text-primary-foreground";
+        return "bg-primary text-primary-foreground border-primary";
       case "accent":
-        return "border-primary/30";
+        return "border-primary/30 bg-primary/5";
       default:
         return "";
     }
@@ -34,11 +34,18 @@ export function ResultCard({
     return "text-sm text-muted-foreground mb-1";
   };
 
+  const getValueClassName = () => {
+    if (variant === "primary") {
+      return "text-3xl font-bold text-primary-foreground";
+    }
+    return "text-3xl font-bold text-primary";
+  };
+
   const content = (
     <Card className={getCardClassName()}>
       <CardContent className="pt-6">
         <p className={getLabelClassName()}>{label}</p>
-        <p className="text-3xl font-bold text-primary">{value}</p>
+        <p className={getValueClassName()}>{value}</p>
       </CardContent>
     </Card>
   );

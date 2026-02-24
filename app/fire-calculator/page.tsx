@@ -180,7 +180,7 @@ export default function FireCalculatorPage() {
             </Card>
 
             <Card
-              className={isFireReached ? "bg-success/10 border-success/30" : ""}
+              className={isFireReached ? "bg-success/10 border-success/40" : ""}
             >
               <CardContent className="pt-6">
                 <p className="text-sm text-muted-foreground mb-1">
@@ -188,7 +188,7 @@ export default function FireCalculatorPage() {
                 </p>
                 {isFireReached ? (
                   <p className="text-2xl font-bold text-success">
-                    🎉 Você já chegou!
+                    Você já chegou!
                   </p>
                 ) : result.yearsToFire >= 100 ? (
                   <p className="text-2xl font-bold text-destructive">
@@ -204,7 +204,7 @@ export default function FireCalculatorPage() {
           </div>
 
           {/* Comparison with 4% Rule */}
-          <Card className="bg-muted/50">
+          <Card className="bg-muted/50 border-border">
             <CardContent className="pt-6">
               <div className="flex items-start justify-between">
                 <div>
@@ -266,13 +266,14 @@ export default function FireCalculatorPage() {
                       <Tooltip
                         formatter={(value: number, name: string) => [
                           formatCurrency(value),
-                          name === "patrimonio" ? "Patrimônio" : "Meta FIRE",
+                          name === "patrimonio" ? "Patrimonio" : "Meta FIRE",
                         ]}
                         labelFormatter={(v) => `Ano ${v}`}
                         contentStyle={{
                           backgroundColor: "hsl(var(--card))",
                           border: "1px solid hsl(var(--border))",
                           borderRadius: "8px",
+                          color: "hsl(var(--card-foreground))",
                         }}
                       />
                       <ReferenceLine

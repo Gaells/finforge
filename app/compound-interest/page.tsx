@@ -149,18 +149,18 @@ export default function CompoundInterestPage() {
               </Card>
             </motion.div>
 
-            <Card>
+            <Card className="border-border">
               <CardContent className="pt-6">
                 <p className="text-sm text-muted-foreground mb-1">
                   Total Investido
                 </p>
-                <p className="text-2xl font-bold text-foreground">
+                <p className="text-2xl font-bold text-card-foreground">
                   {formatCurrency(result.totalInvested)}
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="border-success/30 bg-success/5">
+            <Card className="border-success/40 bg-success/10">
               <CardContent className="pt-6">
                 <p className="text-sm text-success mb-1">Juros Ganhos</p>
                 <p className="text-2xl font-bold text-success">
@@ -252,9 +252,9 @@ export default function CompoundInterestPage() {
                       formatter={(value: number, name: string) => [
                         formatCurrency(value),
                         name === "patrimonio"
-                          ? "Patrimônio Nominal"
+                          ? "Patrimonio Nominal"
                           : name === "patrimonioReal"
-                            ? "Patrimônio Real"
+                            ? "Patrimonio Real"
                             : name === "investido"
                               ? "Investido"
                               : "Juros",
@@ -264,6 +264,7 @@ export default function CompoundInterestPage() {
                         backgroundColor: "hsl(var(--card))",
                         border: "1px solid hsl(var(--border))",
                         borderRadius: "8px",
+                        color: "hsl(var(--card-foreground))",
                       }}
                     />
                     <Legend

@@ -20,7 +20,7 @@ export function CalculatorLayout({
 }: Readonly<CalculatorLayoutProps>) {
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border/50 sticky top-0 z-50 bg-background/80 backdrop-blur-lg">
+      <header className="border-b border-border sticky top-0 z-50 bg-background/90 backdrop-blur-lg">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
