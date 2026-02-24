@@ -97,11 +97,11 @@ export default function RateConverterPage() {
                     <p className="text-muted-foreground mt-2">ao mês</p>
                   </div>
 
-                  <div className="bg-muted/50 rounded-lg p-4 mt-4">
+                  <div className="bg-muted rounded-lg p-4 mt-4">
                     <p className="text-sm text-muted-foreground mb-2">
-                      Fórmula:
+                      Formula:
                     </p>
-                    <p className="font-mono text-sm">
+                    <p className="font-mono text-sm text-foreground">
                       i<sub>m</sub> = (1 + i<sub>a</sub>)<sup>1/12</sup> - 1
                     </p>
                     <p className="font-mono text-xs text-muted-foreground mt-2">
@@ -175,11 +175,11 @@ export default function RateConverterPage() {
                     <p className="text-muted-foreground mt-2">ao ano</p>
                   </div>
 
-                  <div className="bg-muted/50 rounded-lg p-4 mt-4">
+                  <div className="bg-muted rounded-lg p-4 mt-4">
                     <p className="text-sm text-muted-foreground mb-2">
-                      Fórmula:
+                      Formula:
                     </p>
-                    <p className="font-mono text-sm">
+                    <p className="font-mono text-sm text-foreground">
                       i<sub>a</sub> = (1 + i<sub>m</sub>)<sup>12</sup> - 1
                     </p>
                     <p className="font-mono text-xs text-muted-foreground mt-2">

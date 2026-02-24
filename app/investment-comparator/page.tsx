@@ -114,7 +114,7 @@ export default function InvestmentComparatorPage() {
             description="Compare dois cenários de investimento lado a lado para tomar a melhor decisão financeira."
             icon={<Scale className="w-5 h-5" />}
         >
-            <Card className="mb-6 border-border bg-muted/20">
+            <Card className="mb-6 border-border bg-muted/40">
                 <CardContent className="pt-6 flex flex-col md:flex-row gap-6 items-end">
                     <div className="flex-1 w-full">
                         <SliderInputField
@@ -269,9 +269,9 @@ export default function InvestmentComparatorPage() {
                                         <stop offset="95%" stopColor="hsl(var(--accent))" stopOpacity={0} />
                                     </linearGradient>
                                 </defs>
-                                <XAxis dataKey="year" />
-                                <YAxis tickFormatter={(value) => `R$ ${(value / 1000).toFixed(0)}k`} />
-                                <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+                                <XAxis dataKey="year" tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }} />
+                                <YAxis tickFormatter={(value) => `R$ ${(value / 1000).toFixed(0)}k`} tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }} />
+                                <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
                                 <Tooltip content={<CustomTooltip formatter={formatCurrency} />} />
                                 <Legend />
                                 <Area

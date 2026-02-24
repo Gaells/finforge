@@ -147,15 +147,15 @@ export default function InflationAdjuster() {
                 <div className="h-75 w-full">
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={chartData}>
-                      <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+                      <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
                       <XAxis
                         dataKey="year"
-                        tick={{ fontSize: 12 }}
+                        tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
                         tickLine={false}
                       />
                       <YAxis
                         tickFormatter={(v) => `R$ ${(v / 1000).toFixed(0)}k`}
-                        tick={{ fontSize: 12 }}
+                        tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
                         tickLine={false}
                       />
                       <Tooltip
@@ -167,6 +167,7 @@ export default function InflationAdjuster() {
                           backgroundColor: "hsl(var(--card))",
                           border: "1px solid hsl(var(--border))",
                           borderRadius: "8px",
+                          color: "hsl(var(--card-foreground))",
                         }}
                       />
                       <Area
@@ -250,9 +251,9 @@ export default function InflationAdjuster() {
             A inflação corrói o poder de compra do dinheiro ao longo do tempo.
             R$ 100.000 hoje não terão o mesmo valor daqui a 10 anos.
           </p>
-          <div className="p-4 bg-muted/50 rounded-lg">
-            <p className="text-sm font-mono">
-              Valor Real = Valor Futuro ÷ (1 + inflação)^anos
+          <div className="p-4 bg-muted rounded-lg">
+            <p className="text-sm font-mono text-foreground">
+              Valor Real = Valor Futuro / (1 + inflacao)^anos
             </p>
           </div>
         </CardContent>

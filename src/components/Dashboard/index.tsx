@@ -71,9 +71,9 @@ export function Dashboard() {
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         {/* Background decoration */}
-        <div className="absolute inset-0 gradient-hero opacity-[0.02]" />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent/5 rounded-full blur-3xl" />
+        <div className="absolute inset-0 gradient-hero" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/[0.06] rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent/[0.04] rounded-full blur-3xl" />
 
         <div className="container mx-auto px-4 py-16 md:py-24 relative z-10">
           {/* Logo & Nav */}
@@ -127,8 +127,8 @@ export function Dashboard() {
               className="flex flex-wrap gap-8 mb-12"
             >
               {[
-                { value: "5", label: "Calculadoras" },
-                { value: "∞", label: "Precisão Decimal" },
+                { value: "6", label: "Calculadoras" },
+                { value: "∞", label: "Precisao Decimal" },
                 { value: "100%", label: "Gratuito" },
               ].map((stat, index) => (
                 <div key={index} className="text-center">
@@ -156,7 +156,7 @@ export function Dashboard() {
           Ferramentas Disponíveis
         </motion.h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((feature, index) => (
             <FeatureCard
               key={feature.title}

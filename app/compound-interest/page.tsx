@@ -252,9 +252,9 @@ export default function CompoundInterestPage() {
                       formatter={(value: number, name: string) => [
                         formatCurrency(value),
                         name === "patrimonio"
-                          ? "Patrimônio Nominal"
+                          ? "Patrimonio Nominal"
                           : name === "patrimonioReal"
-                            ? "Patrimônio Real"
+                            ? "Patrimonio Real"
                             : name === "investido"
                               ? "Investido"
                               : "Juros",
@@ -264,6 +264,7 @@ export default function CompoundInterestPage() {
                         backgroundColor: "hsl(var(--card))",
                         border: "1px solid hsl(var(--border))",
                         borderRadius: "8px",
+                        color: "hsl(var(--card-foreground))",
                       }}
                     />
                     <Legend

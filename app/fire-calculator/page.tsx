@@ -204,7 +204,7 @@ export default function FireCalculatorPage() {
           </div>
 
           {/* Comparison with 4% Rule */}
-          <Card className="bg-muted/30 border-border">
+          <Card className="bg-muted/50 border-border">
             <CardContent className="pt-6">
               <div className="flex items-start justify-between">
                 <div>
@@ -266,13 +266,14 @@ export default function FireCalculatorPage() {
                       <Tooltip
                         formatter={(value: number, name: string) => [
                           formatCurrency(value),
-                          name === "patrimonio" ? "Patrimônio" : "Meta FIRE",
+                          name === "patrimonio" ? "Patrimonio" : "Meta FIRE",
                         ]}
                         labelFormatter={(v) => `Ano ${v}`}
                         contentStyle={{
                           backgroundColor: "hsl(var(--card))",
                           border: "1px solid hsl(var(--border))",
                           borderRadius: "8px",
+                          color: "hsl(var(--card-foreground))",
                         }}
                       />
                       <ReferenceLine

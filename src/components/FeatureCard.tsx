@@ -29,21 +29,21 @@ export function FeatureCard({
       transition={{ duration: 0.5, delay }}
       className={cn(
         "group relative flex flex-col p-6 rounded-xl",
-        "bg-card border border-border",
-        "hover:shadow-lg hover:shadow-primary/10 hover:border-primary/30",
-        "hover:-translate-y-0.5",
+        "bg-card border border-border shadow-sm",
+        "hover:shadow-lg hover:shadow-primary/8 hover:border-primary/40",
+        "hover:-translate-y-1",
         "transition-all duration-300 ease-out",
         "cursor-pointer overflow-hidden"
       )}
     >
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-[0.03] bg-primary transition-opacity duration-300" />
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-[0.04] bg-primary transition-opacity duration-300" />
 
       <div
         className={cn(
           "flex items-center justify-center w-12 h-12 rounded-lg mb-4",
           "bg-primary/10 text-primary",
           "group-hover:bg-primary group-hover:text-primary-foreground",
-          "group-hover:shadow-md group-hover:shadow-primary/20",
+          "group-hover:shadow-md group-hover:shadow-primary/25",
           "transition-all duration-300",
         )}
       >
@@ -53,7 +53,7 @@ export function FeatureCard({
       <h3 className="text-lg font-semibold text-card-foreground mb-2 group-hover:text-primary transition-colors">
         {title}
       </h3>
-      <p className="text-sm text-muted-foreground leading-relaxed">
+      <p className="text-sm text-muted-foreground leading-relaxed flex-1">
         {description}
       </p>
 
