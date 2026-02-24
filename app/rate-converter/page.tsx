@@ -177,7 +177,7 @@ export default function RateConverterPage() {
 
                   <div className="bg-muted rounded-lg p-4 mt-4">
                     <p className="text-sm text-muted-foreground mb-2">
-                      Formula:
+                      Fórmula:
                     </p>
                     <p className="font-mono text-sm text-foreground">
                       i<sub>a</sub> = (1 + i<sub>m</sub>)<sup>12</sup> - 1
