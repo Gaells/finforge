@@ -253,7 +253,7 @@ export default function InflationAdjuster() {
           </p>
           <div className="p-4 bg-muted rounded-lg">
             <p className="text-sm font-mono text-foreground">
-              Valor Real = Valor Futuro / (1 + inflacao)^anos
+              Valor Real = Valor Futuro / (1 + inflação)^anos
             </p>
           </div>
         </CardContent>
