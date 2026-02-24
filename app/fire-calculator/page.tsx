@@ -277,22 +277,22 @@ export default function FireCalculatorPage() {
                       />
                       <ReferenceLine
                         y={result.fireNumber.toNumber()}
-                        stroke="hsl(160, 84%, 39%)"
+                        stroke="hsl(var(--accent))"
                         strokeDasharray="5 5"
                         label={{
                           value: "Meta FIRE",
                           position: "right",
-                          fill: "hsl(160, 84%, 39%)",
+                          fill: "hsl(var(--accent))",
                           fontSize: 12,
                         }}
                       />
                       <Line
                         type="monotone"
                         dataKey="patrimonio"
-                        stroke="hsl(172, 66%, 50%)"
+                        stroke="hsl(var(--primary))"
                         strokeWidth={3}
                         dot={false}
-                        activeDot={{ r: 6, fill: "hsl(172, 66%, 50%)" }}
+                        activeDot={{ r: 6, fill: "hsl(var(--primary))" }}
                       />
                     </LineChart>
                   </ResponsiveContainer>

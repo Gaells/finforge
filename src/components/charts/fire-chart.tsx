@@ -48,7 +48,7 @@ export function FireProgressChart({ data, fireNumber }: Readonly<FireChartProps>
         >
           <CartesianGrid
             strokeDasharray="3 3"
-            className="stroke-zinc-200 dark:stroke-zinc-800"
+            className="stroke-border"
           />
           <XAxis
             dataKey="ano"
@@ -81,7 +81,7 @@ export function FireProgressChart({ data, fireNumber }: Readonly<FireChartProps>
             type="monotone"
             dataKey="patrimonio"
             name="Patrimônio"
-            stroke="#10b981"
+            stroke="hsl(var(--primary))"
             strokeWidth={3}
             dot={{ r: 4 }}
           />
@@ -89,7 +89,7 @@ export function FireProgressChart({ data, fireNumber }: Readonly<FireChartProps>
             type="monotone"
             dataKey="meta"
             name="Meta FIRE"
-            stroke="#ef4444"
+            stroke="hsl(var(--accent))"
             strokeWidth={2}
             strokeDasharray="5 5"
             dot={false}
@@ -124,7 +124,7 @@ export function FireBreakdownChart({
         >
           <CartesianGrid
             strokeDasharray="3 3"
-            className="stroke-zinc-200 dark:stroke-zinc-800"
+            className="stroke-border"
           />
           <XAxis
             dataKey="ano"
@@ -153,8 +153,8 @@ export function FireBreakdownChart({
             ]}
           />
           <Legend />
-          <Bar dataKey="Aportes" fill="#3b82f6" />
-          <Bar dataKey="Rendimentos" fill="#10b981" />
+          <Bar dataKey="Aportes" fill="hsl(var(--muted-foreground))" />
+          <Bar dataKey="Rendimentos" fill="hsl(var(--primary))" />
         </BarChart>
       </ResponsiveContainer>
     </div>

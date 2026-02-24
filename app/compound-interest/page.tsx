@@ -189,12 +189,12 @@ export default function CompoundInterestPage() {
                       >
                         <stop
                           offset="5%"
-                          stopColor="hsl(160, 84%, 39%)"
+                          stopColor="hsl(var(--primary))"
                           stopOpacity={0.3}
                         />
                         <stop
                           offset="95%"
-                          stopColor="hsl(160, 84%, 39%)"
+                          stopColor="hsl(var(--primary))"
                           stopOpacity={0}
                         />
                       </linearGradient>
@@ -287,7 +287,7 @@ export default function CompoundInterestPage() {
                     <Area
                       type="monotone"
                       dataKey="patrimonio"
-                      stroke="hsl(160, 84%, 39%)"
+                      stroke="hsl(var(--primary))"
                       fill="url(#colorPatrimonio)"
                       strokeWidth={2}
                       name="patrimonio"
