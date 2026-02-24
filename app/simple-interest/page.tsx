@@ -126,7 +126,7 @@ export default function SimpleInterestPage() {
           <Card className="bg-muted/50 border-border">
             <CardContent className="pt-6">
               <p className="text-sm text-muted-foreground mb-2">
-                Formula aplicada:
+                Fórmula aplicada:
               </p>
               <div className="font-mono text-lg text-foreground">{"J = P x i x t"}</div>
               <div className="font-mono text-sm text-muted-foreground mt-2">
