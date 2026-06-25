@@ -32,8 +32,8 @@ export function ForgeLogo({ className, showText = true, size = "md" }: ForgeLogo
           {/* Gradient definitions */}
           <defs>
             <linearGradient id="forgeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="hsl(160, 84%, 45%)" />
-              <stop offset="100%" stopColor="hsl(172, 66%, 50%)" />
+              <stop offset="0%" stopColor="hsl(var(--primary))" />
+              <stop offset="100%" stopColor="hsl(var(--accent))" />
             </linearGradient>
           </defs>
           
