@@ -73,7 +73,7 @@ describe("useCompoundInterestCalculator", () => {
     });
 
     expect(result.current.years).toBe(5);
-    expect(result.current.result.monthlyData).toHaveLength(60);
+    expect(result.current.result.timeline).toHaveLength(6);
   });
 
   it("should generate chart data correctly", () => {

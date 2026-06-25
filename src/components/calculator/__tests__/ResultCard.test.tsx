@@ -31,7 +31,7 @@ describe("ResultCard", () => {
       <ResultCard label="Test" value="R$ 100,00" variant="accent" />,
     );
 
-    const card = container.querySelector(".border-primary\\/30");
+    const card = container.querySelector(".bg-accent");
     expect(card).toBeInTheDocument();
   });
 
