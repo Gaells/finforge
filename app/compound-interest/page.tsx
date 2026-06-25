@@ -135,48 +135,81 @@ export default function CompoundInterestPage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <motion.div
               key={result.finalAmount.toString()}
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.3 }}
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ scale: 1.03, y: -4 }}
             >
-              <Card className="bg-primary text-primary-foreground">
-                <CardContent className="pt-6">
-                  <p className="text-sm opacity-90 mb-1">Montante Final</p>
-                  <p className="text-2xl font-bold">
+              <Card className="bg-gradient-to-br from-primary to-emerald-600 text-primary-foreground border-0 shadow-xl shadow-primary/25 overflow-hidden relative">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
+                <div className="absolute -right-8 -top-8 w-32 h-32 bg-white/10 rounded-full blur-xl" />
+                <CardContent className="pt-6 relative z-10">
+                  <p className="text-sm opacity-90 mb-1 font-medium">Montante Final</p>
+                  <p className="text-2xl font-bold tracking-tight">
                     {formatCurrency(result.finalAmount)}
                   </p>
                 </CardContent>
               </Card>
             </motion.div>
 
-            <Card className="border-border">
-              <CardContent className="pt-6">
-                <p className="text-sm text-muted-foreground mb-1">
-                  Total Investido
-                </p>
-                <p className="text-2xl font-bold text-card-foreground">
-                  {formatCurrency(result.totalInvested)}
-                </p>
-              </CardContent>
-            </Card>
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ scale: 1.03, y: -4 }}
+            >
+              <Card className="border-2 border-[hsl(var(--border))] shadow-lg hover:shadow-xl hover:border-primary/30 overflow-hidden relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-muted/50 to-transparent" />
+                <div className="absolute -right-8 -top-8 w-32 h-32 bg-primary/5 rounded-full blur-xl" />
+                <CardContent className="pt-6 relative z-10">
+                  <p className="text-sm text-muted-foreground mb-1 font-medium">
+                    Total Investido
+                  </p>
+                  <p className="text-2xl font-bold text-card-foreground tracking-tight">
+                    {formatCurrency(result.totalInvested)}
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
 
-            <Card className="border-success/40 bg-success/10">
-              <CardContent className="pt-6">
-                <p className="text-sm text-success mb-1">Juros Ganhos</p>
-                <p className="text-2xl font-bold text-success">
-                  +{formatCurrency(result.totalInterest)}
-                </p>
-              </CardContent>
-            </Card>
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ scale: 1.03, y: -4 }}
+            >
+              <Card className="border-2 border-success/30 bg-gradient-to-br from-success/10 to-emerald-500/5 shadow-lg hover:shadow-xl hover:border-success/50 overflow-hidden relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-success/20 to-transparent" />
+                <div className="absolute -right-8 -top-8 w-32 h-32 bg-success/20 rounded-full blur-xl" />
+                <CardContent className="pt-6 relative z-10">
+                  <p className="text-sm text-success mb-1 font-medium">Juros Ganhos</p>
+                  <p className="text-2xl font-bold text-success tracking-tight">
+                    +{formatCurrency(result.totalInterest)}
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
           </div>
 
           {/* Chart */}
-          <Card>
+          <Card className="overflow-hidden">
             <CardHeader>
-              <CardTitle className="text-lg">Evolução do Patrimônio</CardTitle>
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-lg">Evolução do Patrimônio</CardTitle>
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <span className="flex items-center gap-1">
+                    <span className="w-2 h-2 rounded-full bg-primary" />
+                    Patrimônio
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <span className="w-2 h-2 rounded-full bg-muted-foreground/50" />
+                    Investido
+                  </span>
+                </div>
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="h-87.5">
+              <div className="h-80">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={chartData}>
                     <defs>
@@ -190,7 +223,7 @@ export default function CompoundInterestPage() {
                         <stop
                           offset="5%"
                           stopColor="hsl(var(--primary))"
-                          stopOpacity={0.3}
+                          stopOpacity={0.4}
                         />
                         <stop
                           offset="95%"
@@ -207,12 +240,12 @@ export default function CompoundInterestPage() {
                       >
                         <stop
                           offset="5%"
-                          stopColor="hsl(220, 14%, 46%)"
+                          stopColor="hsl(220, 10%, 50%)"
                           stopOpacity={0.3}
                         />
                         <stop
                           offset="95%"
-                          stopColor="hsl(220, 14%, 46%)"
+                          stopColor="hsl(220, 10%, 50%)"
                           stopOpacity={0}
                         />
                       </linearGradient>
@@ -225,36 +258,41 @@ export default function CompoundInterestPage() {
                       >
                         <stop
                           offset="5%"
-                          stopColor="hsl(var(--primary))"
-                          stopOpacity={0.8}
+                          stopColor="hsl(var(--accent))"
+                          stopOpacity={0.6}
                         />
                         <stop
                           offset="95%"
-                          stopColor="hsl(var(--primary))"
+                          stopColor="hsl(var(--accent))"
                           stopOpacity={0}
                         />
                       </linearGradient>
                     </defs>
                     <CartesianGrid
                       strokeDasharray="3 3"
-                      className="stroke-border"
+                      className="stroke-border/50"
+                      vertical={false}
                     />
                     <XAxis
                       dataKey="ano"
                       tickFormatter={(v) => `${v}a`}
                       className="text-muted-foreground text-xs"
+                      axisLine={false}
+                      tickLine={false}
                     />
                     <YAxis
                       tickFormatter={formatCompact}
                       className="text-muted-foreground text-xs"
+                      axisLine={false}
+                      tickLine={false}
                     />
                     <Tooltip
                       formatter={(value: number, name: string) => [
                         formatCurrency(value),
                         name === "patrimonio"
-                          ? "Patrimonio Nominal"
+                          ? "Patrimônio Nominal"
                           : name === "patrimonioReal"
-                            ? "Patrimonio Real"
+                            ? "Patrimônio Real"
                             : name === "investido"
                               ? "Investido"
                               : "Juros",
@@ -262,9 +300,10 @@ export default function CompoundInterestPage() {
                       labelFormatter={(v) => `Ano ${v}`}
                       contentStyle={{
                         backgroundColor: "hsl(var(--card))",
-                        border: "1px solid hsl(var(--border))",
-                        borderRadius: "8px",
+                        border: "2px solid hsl(var(--border))",
+                        borderRadius: "12px",
                         color: "hsl(var(--card-foreground))",
+                        boxShadow: "0 10px 40px hsl(var(--foreground) / 0.1)",
                       }}
                     />
                     <Legend
@@ -277,11 +316,13 @@ export default function CompoundInterestPage() {
                               ? "Patrimônio Real (IPCA)"
                               : value
                       }
+                      iconType="circle"
+                      iconSize={8}
                     />
                     <Area
                       type="monotone"
                       dataKey="investido"
-                      stroke="hsl(220, 14%, 46%)"
+                      stroke="hsl(220, 10%, 50%)"
                       fill="url(#colorInvestido)"
                       strokeWidth={2}
                     />
@@ -290,16 +331,16 @@ export default function CompoundInterestPage() {
                       dataKey="patrimonio"
                       stroke="hsl(var(--primary))"
                       fill="url(#colorPatrimonio)"
-                      strokeWidth={2}
+                      strokeWidth={2.5}
                       name="patrimonio"
                     />
                     {isInflationAdjusted && (
                       <Area
                         type="monotone"
                         dataKey="patrimonioReal"
-                        stroke="hsl(var(--primary))"
+                        stroke="hsl(var(--accent))"
                         fill="url(#colorReal)"
-                        strokeWidth={2}
+                        strokeWidth={2.5}
                         strokeDasharray="5 5"
                         name="patrimonioReal"
                       />
@@ -311,13 +352,13 @@ export default function CompoundInterestPage() {
           </Card>
 
           {/* Interest breakdown */}
-          <Card>
+          <Card className="overflow-hidden">
             <CardContent className="pt-6">
               <div className="flex items-center justify-between mb-4">
-                <span className="text-sm text-muted-foreground">
+                <span className="text-sm text-muted-foreground font-medium">
                   Proporção Juros vs Investido
                 </span>
-                <span className="text-sm font-medium">
+                <span className="text-sm font-bold text-primary">
                   {result.totalInterest
                     .div(result.totalInvested)
                     .mul(100)
@@ -325,9 +366,9 @@ export default function CompoundInterestPage() {
                   % de rendimento
                 </span>
               </div>
-              <div className="relative h-4 bg-muted rounded-full overflow-hidden">
+              <div className="relative h-5 bg-muted/70 rounded-full overflow-hidden shadow-inner">
                 <motion.div
-                  className="absolute inset-y-0 left-0 bg-muted-foreground/50 rounded-full"
+                  className="absolute inset-y-0 left-0 bg-gradient-to-r from-muted-foreground/60 to-muted-foreground/40 rounded-full"
                   initial={{ width: 0 }}
                   animate={{
                     width: `${result.totalInvested
@@ -335,10 +376,10 @@ export default function CompoundInterestPage() {
                       .mul(100)
                       .toNumber()}%`,
                   }}
-                  transition={{ duration: 0.8, ease: "easeOut" }}
+                  transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                 />
                 <motion.div
-                  className="absolute inset-y-0 bg-primary rounded-full"
+                  className="absolute inset-y-0 bg-gradient-to-r from-primary to-emerald-400 rounded-full shadow-lg shadow-primary/30"
                   style={{
                     left: `${result.totalInvested
                       .div(result.finalAmount)
@@ -352,12 +393,18 @@ export default function CompoundInterestPage() {
                       .mul(100)
                       .toNumber()}%`,
                   }}
-                  transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+                  transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
                 />
               </div>
-              <div className="flex justify-between mt-2 text-xs text-muted-foreground">
-                <span>Investido</span>
-                <span className="text-primary">Juros</span>
+              <div className="flex justify-between mt-3 text-xs font-medium">
+                <span className="text-muted-foreground flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-muted-foreground/50" />
+                  Investido
+                </span>
+                <span className="text-primary flex items-center gap-2">
+                  Juros
+                  <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-primary to-emerald-400" />
+                </span>
               </div>
             </CardContent>
           </Card>

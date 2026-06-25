@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ForgeLogo } from "@/public/ForgeLogo";
 import { FeatureCard } from "@/components/FeatureCard";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -113,24 +113,31 @@ const StatCounter = ({ value, label }: { value: string; label: string }) => (
 );
 
 export function Dashboard() {
+  const { scrollY } = useScroll();
+  const opacity = useTransform(scrollY, [0, 200], [1, 0.8]);
+
   return (
-    <div className="min-h-screen bg-background">
+    <motion.div 
+      className="min-h-screen bg-background"
+      style={{ opacity }}
+    >
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-accent/10 rounded-full blur-[100px]" />
+        <div className="absolute inset-0 gradient-mesh-primary" />
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] gradient-glow-primary opacity-60 blur-[120px]" />
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] gradient-glow-accent opacity-40 blur-[100px]" />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-[80px] animate-float" />
 
         <div className="container mx-auto px-4 py-8 md:py-12 relative z-10">
           <motion.header
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
             className="flex items-center justify-between mb-8 md:mb-12"
           >
             <ForgeLogo size="lg" />
 
             <div className="flex items-center gap-3">
-              <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium">
+              <div className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium border border-primary/20 glass-card">
                 <Sparkles className="w-4 h-4 animate-pulse" />
                 <span>Precisão financeira</span>
               </div>
@@ -141,12 +148,12 @@ export function Dashboard() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
             className="max-w-3xl mb-10 md:mb-14"
           >
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-4 md:mb-6">
               Forje seu futuro{" "}
-              <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-primary via-emerald-500 to-accent bg-clip-text text-transparent animate-gradient">
                 financeiro
               </span>
             </h1>
@@ -172,14 +179,14 @@ export function Dashboard() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
             className="mb-6"
           >
             <div className="flex items-center justify-between">
               <h2 className="text-xl md:text-2xl font-semibold">
                 Ferramentas Disponíveis
               </h2>
-              <Button variant="ghost" size="sm" className="gap-2 hidden sm:flex">
+              <Button variant="ghost" size="sm" className="gap-2 hidden sm:flex hover:bg-primary/10 hover:text-primary transition-colors">
                 Ver todas
                 <ArrowRight className="w-4 h-4" />
               </Button>
@@ -203,7 +210,7 @@ export function Dashboard() {
         </div>
       </section>
 
-      <footer className="border-t border-[hsl(var(--border)/0.5)] py-6 md:py-8 mt-8">
+      <footer className="border-t border-[hsl(var(--border)/0.5)] py-6 md:py-8 mt-8 glass-card">
         <div className="container mx-auto px-4">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <ForgeLogo size="sm" />
@@ -213,6 +220,6 @@ export function Dashboard() {
           </div>
         </div>
       </footer>
-    </div>
+    </motion.div>
   );
 }

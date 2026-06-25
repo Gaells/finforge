@@ -61,12 +61,12 @@ export function SliderInputField({
   return (
     <div className="space-y-3">
       <div className="flex justify-between items-center">
-        <Label htmlFor={id} className="text-sm font-medium">
+        <Label htmlFor={id} className="text-sm font-medium text-foreground">
           {label}
         </Label>
         <span
           className={`
-            text-sm font-semibold tabular-nums transition-all duration-150
+            text-sm font-bold tabular-nums transition-all duration-200
             ${isDragging ? "text-primary scale-105" : "text-foreground"}
           `}
         >
@@ -94,7 +94,7 @@ export function SliderInputField({
         />
       )}
       
-      <div className="relative pt-2 pb-1">
+      <div className="relative pt-1 pb-2">
         <Slider
           value={[localValue]}
           onValueChange={handleSliderChange}
@@ -107,7 +107,7 @@ export function SliderInputField({
           className="absolute bottom-4 left-0 h-1.5 bg-primary/20 rounded-full w-full overflow-hidden"
         >
           <div 
-            className="h-full bg-primary rounded-full transition-all duration-75"
+            className="h-full bg-gradient-to-r from-primary to-emerald-500 rounded-full transition-all duration-75"
             style={{ width: `${Math.min(100, Math.max(0, percentage))}%` }}
           />
         </div>
