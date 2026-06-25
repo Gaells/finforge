@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 
@@ -13,21 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export function ThemeToggle() {
-  const { setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return (
-      <Button variant="outline" size="icon" className="relative">
-        <Sun className="h-[1.2rem] w-[1.2rem]" />
-        <span className="sr-only">Alternar tema</span>
-      </Button>
-    );
-  }
+  const { setTheme, resolvedTheme } = useTheme();
 
   return (
     <DropdownMenu>
@@ -40,12 +25,15 @@ export function ThemeToggle() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => setTheme("light")}>
+          <Sun className="mr-2 h-4 w-4" />
           Claro
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("dark")}>
+          <Moon className="mr-2 h-4 w-4" />
           Escuro
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("system")}>
+          <span className="mr-2">💻</span>
           Sistema
         </DropdownMenuItem>
       </DropdownMenuContent>
