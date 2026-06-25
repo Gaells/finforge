@@ -203,7 +203,7 @@ export function Dashboard() {
         </div>
       </section>
 
-      <footer className="border-t border-border/50 py-6 md:py-8 mt-8">
+      <footer className="border-t border-[hsl(var(--border)/0.5)] py-6 md:py-8 mt-8">
         <div className="container mx-auto px-4">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <ForgeLogo size="sm" />

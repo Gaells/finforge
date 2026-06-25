@@ -30,7 +30,7 @@ export function FeatureCard({
         "group relative flex flex-col p-6 rounded-2xl",
         "bg-white/80 dark:bg-zinc-900/80",
         "backdrop-blur-xl",
-        "border border-border/50 dark:border-zinc-800/50",
+        "border border-[hsl(var(--border)/0.5)] dark:border-zinc-800/50",
         "shadow-sm hover:shadow-xl hover:shadow-primary/10",
         "transition-all duration-300 ease-out",
         "cursor-pointer overflow-hidden"

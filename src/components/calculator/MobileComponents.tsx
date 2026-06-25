@@ -32,7 +32,7 @@ export function StickyResultBar({
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
           className={cn(
             "fixed bottom-0 left-0 right-0 z-50 md:hidden",
-            "bg-background/95 backdrop-blur-lg border-t border-border/50",
+            "bg-background/95 backdrop-blur-lg border-t border-[hsl(var(--border)/0.5)]",
             "safe-area-inset-bottom"
           )}
         >
@@ -102,13 +102,13 @@ export function MobileSlideUpPanel({
             exit={{ y: "100%" }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className={cn(
-              "fixed bottom-0 left-0 right-0 z-50 rounded-t-2xl bg-background border-t border-border/50",
+              "fixed bottom-0 left-0 right-0 z-50 rounded-t-2xl bg-background border-t border-[hsl(var(--border)/0.5)]",
               "max-h-[85vh] overflow-auto",
               "safe-area-inset-bottom",
               className
             )}
           >
-            <div className="sticky top-0 bg-background/95 backdrop-blur-lg border-b border-border/50 px-4 py-3 flex items-center justify-between">
+            <div className="sticky top-0 bg-background/95 backdrop-blur-lg border-b border-[hsl(var(--border)/0.5)] px-4 py-3 flex items-center justify-between">
               <h3 className="font-semibold">{title}</h3>
               <Button variant="ghost" size="icon" onClick={onClose} className="h-8 w-8 -mr-2">
                 <X className="h-4 h-4" />

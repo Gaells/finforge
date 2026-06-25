@@ -202,7 +202,7 @@ export default function InflationAdjuster() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className="border-b border-border">
+                      <tr className="border-b border-[hsl(var(--border))]">
                         <th className="text-left py-3 px-2 font-medium">Ano</th>
                         <th className="text-right py-3 px-2 font-medium">
                           Valor Nominal
@@ -219,7 +219,7 @@ export default function InflationAdjuster() {
                       {projection.map((p) => (
                         <tr
                           key={p.year}
-                          className="border-b border-border/50 hover:bg-muted/50"
+                          className="border-b border-[hsl(var(--border)/0.5)] hover:bg-muted/50"
                         >
                           <td className="py-3 px-2">{p.year}</td>
                           <td className="text-right py-3 px-2">

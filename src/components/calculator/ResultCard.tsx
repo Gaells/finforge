@@ -57,7 +57,7 @@ export function ResultCard({
         );
       default:
         return cn(
-          "bg-card border-border/50 hover:border-border",
+          "bg-card border-[hsl(var(--border)/0.5)] hover:border-[hsl(var(--border))]",
           baseClasses,
           className
         );
