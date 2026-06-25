@@ -74,13 +74,13 @@ export function CompoundInterestChart({
         >
           <defs>
             <linearGradient id="colorSaldo" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#10b981" stopOpacity={0.8} />
-              <stop offset="95%" stopColor="#10b981" stopOpacity={0.1} />
+              <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0.1} />
             </linearGradient>
           </defs>
           <CartesianGrid
             strokeDasharray="3 3"
-            className="stroke-zinc-200 dark:stroke-zinc-800"
+            className="stroke-border"
           />
           <XAxis
             dataKey="period"
@@ -113,7 +113,7 @@ export function CompoundInterestChart({
             type="monotone"
             dataKey="saldo"
             name="Saldo Total"
-            stroke="#10b981"
+            stroke="hsl(var(--primary))"
             fillOpacity={1}
             fill="url(#colorSaldo)"
           />
