@@ -11,7 +11,7 @@ export function BreakdownRow({
   showBorder = true,
   valueClassName = "font-medium",
 }: Readonly<BreakdownRowProps>) {
-  const borderClass = showBorder ? "border-b border-border/50" : "";
+  const borderClass = showBorder ? "border-b border-[hsl(var(--border)/0.5)]" : "";
 
   return (
     <div className={`flex justify-between items-center py-2 ${borderClass}`}>

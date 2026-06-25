@@ -203,7 +203,7 @@ export default function InflationAdjuster() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className="border-b border-border">
+                      <tr className="border-b border-[hsl(var(--border))]">
                         <th className="text-left py-3 px-2 font-medium">Ano</th>
                         <th className="text-right py-3 px-2 font-medium">
                           Valor Nominal

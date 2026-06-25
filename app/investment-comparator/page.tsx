@@ -33,7 +33,7 @@ interface CustomTooltipProps {
 const CustomTooltip = ({ active, payload, label, formatter }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
         return (
-            <div className="bg-card border border-border p-4 rounded-lg shadow-lg">
+            <div className="bg-card border border-[hsl(var(--border))] p-4 rounded-lg shadow-lg">
                 <p className="font-semibold mb-2">Ano {label}</p>
                 {payload.map((entry: TooltipPayload, index: number) => (
                     <div key={index} className="flex items-center gap-2 mb-1" style={{ color: entry.color }}>
@@ -43,7 +43,7 @@ const CustomTooltip = ({ active, payload, label, formatter }: CustomTooltipProps
                     </div>
                 ))}
                 {payload.length >= 2 && (
-                    <div className="mt-2 pt-2 border-t border-border/50">
+                    <div className="mt-2 pt-2 border-t border-[hsl(var(--border)/0.5)]">
                         <div className="flex justify-between items-center gap-4">
                             <span className="text-sm text-muted-foreground">Diferença:</span>
                             <span className="text-sm font-bold text-foreground">

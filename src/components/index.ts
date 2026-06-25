@@ -1,11 +1,16 @@
-export * from "./ui/button";
-export * from "./ui/card";
-export * from "./ui/input";
-export * from "./ui/label";
-export * from "./ui/dropdown-menu";
-
-export { ThemeProvider } from "./theme-provider";
+export { ErrorBoundary, CalculatorErrorBoundary } from "./error-boundary";
+export { 
+  StickyResultBar, 
+  MobileSlideUpPanel, 
+  EmptyState, 
+  SuccessCheckmark 
+} from "./calculator/MobileComponents";
+export { SliderInputField } from "./calculator/SliderInputField";
+export { ResultCard, ResultGrid } from "./calculator/ResultCard";
+export { BreakdownRow } from "./calculator/BreakdownRow";
+export { InflationControls } from "./calculator/InflationControls";
+export { CalculatorLayout } from "./CalculatorLayout";
+export { Dashboard } from "./Dashboard";
+export { FeatureCard } from "./FeatureCard";
 export { ThemeToggle } from "./theme-toggle";
-
-export * from "./charts/compound-interest-chart";
-export * from "./charts/fire-chart";
+export { ThemeProvider } from "./theme-provider";
