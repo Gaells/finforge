@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ForgeLogo } from "@/public/ForgeLogo";
 import { FeatureCard } from "@/components/FeatureCard";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { UserMenu } from "@/components/auth/UserMenu";
 import { Button } from "@/components/ui/button";
 import {
   TrendingUp,
@@ -142,6 +143,7 @@ export function Dashboard() {
                 <span>Precisão financeira</span>
               </div>
               <ThemeToggle />
+              <UserMenu />
             </div>
           </motion.header>
 

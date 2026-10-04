@@ -4,6 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ForgeLogo } from "@/public/ForgeLogo";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { UserMenu } from "@/components/auth/UserMenu";
 
 interface CalculatorLayoutProps {
   children: ReactNode;
@@ -37,6 +38,7 @@ export function CalculatorLayout({
               </div>
             </div>
             <ThemeToggle />
+            <UserMenu />
           </div>
         </div>
       </header>
