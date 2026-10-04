@@ -1,3 +1,5 @@
+"use client";
+
 import { AlertTriangle, PieChart } from "lucide-react";
 import {
   Pie,
