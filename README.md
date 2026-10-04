@@ -1,6 +1,6 @@
 # FinForge 🔥
 
-> Suíte de ferramentas financeiras de alta precisão para planejamento de independência financeira (FIRE) e simulações de investimento.
+> Carteira de investimentos pessoal com precisão decimal e projetor de patrimônio.
 
 ## 🎯 Sobre o Projeto
 
@@ -8,134 +8,110 @@ FinForge é uma aplicação financeira construída com foco em **precisão matem
 
 ### ✨ Funcionalidades
 
-- 📊 **Calculadora de Juros Compostos**: Simule o crescimento do seu patrimônio com aportes recorrentes
-- 🔥 **Planejador FIRE**: Calcule quanto você precisa para se aposentar e viver de renda passiva
-- 📈 **Gráficos Interativos**: Visualize a evolução do seu patrimônio ao longo do tempo
-- 💯 **Precisão Absoluta**: Uso de `decimal.js` para cálculos sem erros de arredondamento
+#### 💼 Carteira de Investimentos
+- 📊 **Cadastro de ativos** com tipos: Ações, ETFs, FIIs, Cripto, Renda Fixa e Caixa
+- 💸 **Transações** de compra, venda, dividendos, JCP e rendimentos
+- 📈 **Posições** com preço médio, P&L realizado e não realizado
+- 🎯 **Alocação** com gráfico de pizza + alertas de concentração
+- 📉 **Projeção** de patrimônio futuro com aportes e IPCA
+- 🧪 **Simulador "E se...?"** comparando cenários com aporte extra e retiradas
+- 💵 **Proventos** com yield on cost por ativo
+- 🌍 **Multi-moeda** (BRL + USD) com cotação automática
+- 💾 **Backup / Restore** via JSON
+- 🔐 **Auth** com Supabase (email/senha)
 
-## 🛠 Stack Tecnológica
+#### 🧮 Calculadoras (mantidas)
+- Juros Compostos, Juros Simples, FIRE, Conversor de Taxas, Ajuste de Inflação, Comparador de Investimentos
 
-- **Framework**: Next.js 16.1 (App Router)
-- **Engine**: React 19 (Server Components)
+### 🛠 Stack Tecnológica
+
+- **Framework**: Next.js 16.1 (App Router, Server Actions)
+- **Engine**: React 19
 - **Linguagem**: TypeScript 5.x (Strict mode)
 - **Estilização**: Tailwind CSS v4
-- **UI Components**: shadcn/ui (Radix UI)
-- **Animações**: Framer Motion 12
+- **UI**: shadcn/ui (Radix UI) + Framer Motion 12
+- **Backend / DB**: Supabase (Postgres + Auth + RLS)
 - **Gráficos**: Recharts
 - **Matemática**: decimal.js
 - **Validação**: Zod
 - **Formulários**: React Hook Form
 
-## 📁 Arquitetura
-
-O projeto segue os princípios de **Clean Architecture**, separando claramente:
-
-```
-src/
-├── core/                    # 🎯 DOMÍNIO (Lógica Pura)
-│   ├── domain/              # Entidades e tipos
-│   ├── use-cases/           # Regras de negócio isoladas
-│   └── utils/               # Helpers matemáticos
-├── components/              # 🎨 UI Components
-│   ├── ui/                  # Componentes base (shadcn)
-│   ├── charts/              # Componentes de visualização
-│   └── dashboard/           # Componentes de negócio
-├── hooks/                   # Custom hooks
-└── lib/                     # Configurações e utilitários
-
-app/                         # 📄 Camada de Apresentação (Next.js)
-├── compound-interest/       # Calculadora de Juros Compostos
-├── fire-planner/            # Planejador FIRE
-└── page.tsx                 # Home page
-```
-
-### 🎯 Princípios da Arquitetura
-
-1. **Independência de Framework**: A lógica de negócio (core) é totalmente isolada do React/Next.js
-2. **Testabilidade**: Use-cases puros podem ser testados sem UI
-3. **Precisão**: Uso obrigatório de `Decimal` para todos os cálculos financeiros
-4. **Type Safety**: TypeScript strict mode + validação com Zod
+### 🔌 Cotações
+- Cripto: **CoinGecko** (sem auth)
+- Ações/FIIs/ETFs BR: **Brapi.dev** (free tier)
+- Ações/ETFs US: **Yahoo Finance** (sem auth)
+- USD/BRL: **AwesomeAPI**
+- Cache compartilhado em `price_cache` (TTL 15min, refresh manual)
 
 ## 🚀 Como Executar
 
 ```bash
-# Instalar dependências
 npm install
-
-# Executar em desenvolvimento
+cp .env.example .env.local  # preencha com credenciais do Supabase
 npm run dev
-
-# Build para produção
-npm run build
-
-# Executar produção
-npm start
 ```
 
-Acesse [http://localhost:3000](http://localhost:3000)
+### Setup do Supabase
+1. Crie projeto em https://supabase.com
+2. SQL Editor → rode `supabase/migrations/20251003000000_init.sql`
+3. Authentication → Providers → Email → confirme se quer/desativar confirmação
+4. Settings → API → copie `URL` e `anon public key` para `.env.local`
 
-## 📚 Estrutura de Cálculos
+## 📁 Estrutura
 
-### Juros Compostos
-
-Fórmula implementada:
 ```
-A = P(1 + r)^n + PMT × [(1 + r)^n - 1] / r
+src/
+├── core/
+│   ├── domain/                # Tipos e constantes
+│   │   ├── portfolio.types.ts
+│   │   ├── asset-classes.ts
+│   │   └── portfolio-constants.ts
+│   ├── services/                # Lógica de cálculo (pura)
+│   │   ├── portfolio.service.ts
+│   │   ├── fixedIncome.service.ts
+│   │   ├── projection.service.ts
+│   │   ├── allocation.service.ts
+│   │   ├── dividends.service.ts
+│   │   ├── priceFetcher.service.ts
+│   │   ├── currency.service.ts
+│   │   └── portfolio-aggregator.service.ts
+│   ├── data/                   # Acesso ao banco (server-only)
+│   └── utils/
+├── components/
+│   ├── auth/                    # AuthForm, UserMenu
+│   ├── portfolio/               # AssetForm, TransactionForm, AllocationView, etc.
+│   └── Dashboard/               # PortfolioTeaser
+├── hooks/                       # useAuth
+└── lib/supabase/                # client, server, middleware, types
+
+supabase/
+└── migrations/                  # SQL versionado
+
+app/
+├── (auth)/                      # /login, /signup
+├── portfolio/                   # carteira + sub-rotas
+├── assets/                      # CRUD de ativos
+└── transactions/                # CRUD de transações
 ```
 
-Onde:
-- A = Montante final
-- P = Capital inicial
-- r = Taxa de juros por período
-- n = Número de períodos
-- PMT = Aporte mensal
+## 🧪 Testes
 
-### FIRE Number
+116 testes com Vitest cobrindo serviços de cálculo, hooks e componentes.
 
-Baseado na Trinity Study e regra dos 4%:
-```
-FIRE Number = Despesas Anuais / Taxa de Retirada Segura
+```bash
+npm test
+npm run test:coverage
 ```
 
-Considera:
-- Inflação (IPCA médio histórico)
-- Taxa real de retorno (descontada inflação)
-- Aportes mensais recorrentes
-- Simulação ano a ano até a meta
+## 📐 Regras de Negócio
 
-## 🔒 Garantia de Precisão
-
-```typescript
-// ❌ NUNCA faça isso (ponto flutuante impreciso)
-const result = 0.1 + 0.2; // 0.30000000000000004
-
-// ✅ SEMPRE use Decimal
-import Decimal from 'decimal.js';
-const result = new Decimal(0.1).plus(0.2); // 0.3
-```
-
-Todos os cálculos monetários usam `decimal.js` para garantir precisão de até 20 casas decimais.
-
-## 🎨 Componentização
-
-Os componentes seguem a estrutura do shadcn/ui com customizações:
-
-- **Card**: Container base para seções
-- **Input**: Campos de formulário com validação
-- **Button**: Botões com variantes de estilo
-- **Label**: Labels acessíveis para formulários
-- **Charts**: Gráficos construídos com Recharts
-
-## 🧪 Próximos Passos
-
-- [ ] Adicionar testes unitários (Vitest)
-- [ ] Implementar conversor de taxas
-- [ ] Adicionar calculadora de poder de compra
-- [ ] Implementar comparador de investimentos
-- [ ] Adicionar suporte a múltiplas moedas
+- **Preço médio** = Σ(qty × preço) / Σ(qty) − vendas parciais reduzem qty e custo
+- **P&L realizado** = Σ(venda − preço_médio_na_data)
+- **P&L não realizado** = (preço_atual − preço_médio) × quantidade
+- **Yield on cost** = Σ(dividendos) / custo_total × 100
+- **Renda Fixa**: CDI% / IPCA+ / Prefixado com capitalização anual
+- **Multi-moeda**: agregação sempre em BRL usando `USDBRL` cacheado
 
 ## 📄 Licença
 
 MIT
-
----
